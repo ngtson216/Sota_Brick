@@ -15,6 +15,7 @@ import Profile from '../src/components/Profile'
 import initFontAwesome from "../src/initFontAwesome.js";
 import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
+import StockManager from '../src/components/Manager/StockManager'
 initFontAwesome();
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           <Route path="/UserManager" element={<UserManager />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Product" element={<Product />} />
+          <Route path="/StockManager" element={<StockManager />} />
         </Routes>
         <Footer />
       </div>

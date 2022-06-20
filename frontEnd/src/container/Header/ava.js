@@ -9,7 +9,6 @@ import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { BsPerson } from 'react-icons/bs';
-
 export default function Ava() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -29,6 +28,9 @@ export default function Ava() {
     }
     const AccountManagement = () => {
         window.location.href = '/UserManager'
+    }
+    const StockManager = () => {
+        window.location.href = '/StockManager'
     }
     return (
         <React.Fragment>
@@ -101,12 +103,19 @@ export default function Ava() {
                     Account Manager
                 </MenuItem>
                 <MenuItem onClick={Profile} style={{
-                    marginBottom: '200px',
                     paddingRight: '60px',
                     paddingLeft: '30px',
                     paddingBottom: '10px'
                 }}>
                     Profile
+                </MenuItem>
+                <MenuItem onClick={StockManager} style={{
+                    marginBottom: '200px',
+                    paddingRight: '60px',
+                    paddingLeft: '30px',
+                    paddingBottom: '10px'
+                }}>
+                    Stock Manager
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={LogOut}>

@@ -58,3 +58,19 @@
     background-color: transparent;
     color: black;
 }
+
+.descriptionInput {
+    border-radius: 10px;
+    border: solid black 1px;
+    line-height: 1.4375em;
+    width: 90%;
+    resize: both;
+    font-size: 0.9rem;
+    letter-spacing: 0.00938em;
+    background-color: transparent;
+    color: black;
+    height: 200px;
+    padding: 0;
+    outline: none;
+    padding-left: 1%;
+}

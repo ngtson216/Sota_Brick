@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-date-picker": "^8.4.0",
+    "react-rainbow-components": "^1.30.1"
+  }
+}

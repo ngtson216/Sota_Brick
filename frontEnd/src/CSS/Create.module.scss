@@ -1,0 +1,60 @@
+.h1Create {
+    padding-top: 20px;
+    text-align: center
+}
+
+.gridContainer {
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.gridChildren {
+    margin-left: 20%;
+    font-size: 19px
+}
+
+.gridChildrenRight {
+    margin-left: 7%;
+    font-size: 19px;
+    margin-right: 13%;
+}
+
+.description {
+    margin-left: 10%;
+    font-size: 19px
+}
+
+.inputFile {
+    margin-left: 10%;
+    font-size: 18px;
+    padding-bottom: 10px;
+}
+
+.inputStyle {
+    padding: 2px;
+    border-radius: 10px;
+    border: solid black 1px;
+    line-height: 1.4375em;
+    width: 90%;
+    font-size: 0.9rem;
+    letter-spacing: 0.00938em;
+    height: 38px;
+    position: relative;
+    background-color: transparent;
+    color: black;
+}
+
+.inputDescriptionStyle {
+    padding: 2px;
+    border-radius: 10px;
+    border: solid black 1px;
+    line-height: 1.4375em;
+    width: 88.5%;
+    font-size: 0.9rem;
+    letter-spacing: 0.00938em;
+    height: 100px;
+    position: relative;
+    background-color: transparent;
+    color: black;
+}

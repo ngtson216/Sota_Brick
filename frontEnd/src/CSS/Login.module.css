@@ -1,0 +1,96 @@
+.wrapper {
+    --search-border-radius: 17px;
+    --search-height: 40px;
+    --search-top-spacer: 9px;
+    width: 100%;
+}
+
+select:invalid {
+    color: gray;
+}
+
+
+select option {
+    color: rgb(0, 0, 0);
+
+}
+
+.search {
+    position: relative;
+    width: 250px;
+    height: var(--search-height);
+    padding-left: 16px;
+    display: flex;
+    background-color: #fff;
+    border-radius: var(--search-border-radius);
+    border: 1.5px solid rgb(189, 189, 189);
+}
+
+.btnEye {
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(91, 91, 91);
+    padding-left: 6px;
+}
+
+.btnLogin {
+    width: 6rem;
+    background-color: #3174d9;
+    border-radius: 16px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.btnLogin:hover,
+.btnLogin:focus {
+    background-color: #124a9e;
+}
+
+.title {
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 180px 0 20px 0;
+}
+
+.content {
+    color: #f2f2f2;
+    font-weight: lighter;
+}
+
+.forget {
+    color: #f2f2f2;
+    font-size: 0.75rem;
+}
+
+.container {
+    padding-left: 100px;
+}
+
+.unstyleLink {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.inline {
+    display: inline-block;
+}

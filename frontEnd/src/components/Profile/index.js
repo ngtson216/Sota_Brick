@@ -3,22 +3,26 @@ import jwt_decode from "jwt-decode";
 import styleLogin from '../../CSS/Login.module.css'
 import bgProfile from '../../img/bgProfile.jpg'
 import avatar from '../../assets/avatar.svg'
+import EditProfile from '../Edit/EditProfile';
+import { Link } from 'react-router-dom'
+import styleModal from '../../CSS/ModalUpdate.module.css'
+import Popup from 'reactjs-popup';
 function Profile() {
     const token = sessionStorage.getItem('token')
     const decoded = jwt_decode(sessionStorage.getItem('token'));
-    const [items, setItems] = useState()
     const url = "http://localhost:8080/api/v1/users/" + decoded.id
+    const [items, setItems] = useState()
+    const [open, setOpen] = useState(false);
+    const [edit, setEdit] = useState([]);
+    const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
     useEffect(() => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", token);
-        // myHeaders.append("x-auth-token", localStorage.getItem('token'));
-        // myHeaders.append("Content-Type", "application/json");
         var requestOptions = {
             method: 'GET',
             headers: myHeaders,
             redirect: 'follow'
         };
-
         fetch(url, requestOptions)
             .then(response => response.json())
             .then(result => setItems(result))
@@ -49,8 +53,40 @@ function Profile() {
                         color: "#fff",
                         background: "linear-gradient(180deg, #9C4CD0 0%, #6131EB 100%)",
                     }}
+                        onClick={() => {
+                            setOpen(o => !o)
+                            setEdit([{
+                                _id: decoded.id,
+                                name: items.data.name,
+                                gender: items.data.gender,
+                                age: items.data.age,
+                                email: items.data.email,
+                                phone: items.data.phone,
+                                identification: items.data.identification,
+                                address: items.data.address,
+                                ward: items.data.ward,
+                                district: items.data.district,
+                                city: items.data.city,
+                            }])
+                        }}
                     >Update Profile
                     </button>
+                    <Popup
+                        open={open}
+                        {...{ overlayStyle }} modal>
+                        {(close) => (
+                            <div className={styleModal.modal}>
+                                <button className={styleModal.close} onClick={close}>
+                                    &times;
+                                </button>
+                                <div className={styleModal.content}>
+                                </div>
+                                <div className={styleModal.actions}>
+                                    <EditProfile dataFromParent={edit} />
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
                 </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", paddingLeft: '10%' }}>
@@ -65,17 +101,15 @@ function Profile() {
                                 <span className='lineHeightProfile'>{items.data.name}</span>
                             </div>
                         </div>
-
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
                             Gender:
                         </label>
                         <div className={styleLogin.wrapper}>
                             <div className={styleLogin.search} style={{ background: "#ccc", border: "0.01px gray solid" }}>
-                                <span className='lineHeightProfile'>{items.data.gender}</span>
+                                <span className='lineHeightProfile'>{items.data.gender ? "Boy" : "Girl"}</span>
                             </div>
                         </div>
-
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
                             Age:
@@ -85,7 +119,6 @@ function Profile() {
                                 <span className='lineHeightProfile'>{items.data.age}</span>
                             </div>
                         </div>
-
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
                             Email:
@@ -95,7 +128,6 @@ function Profile() {
                                 <span className='lineHeightProfile'>{items.data.email}</span>
                             </div>
                         </div>
-
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
                             Phone:
@@ -114,10 +146,9 @@ function Profile() {
                     </label>
                     <div className={styleLogin.wrapper}>
                         <div className={styleLogin.search} style={{ background: "#ccc", border: "0.01px gray solid" }}>
-                            <span className='lineHeightProfile'>{items.data.idCard}</span>
+                            <span className='lineHeightProfile'>{items.data.identification}</span>
                         </div>
                     </div>
-
                     <label
                         style={{ padding: "10px 0 0px 0" }}>
                         Address:
@@ -127,34 +158,31 @@ function Profile() {
                             <span className='lineHeightProfile'>{items.data.address}</span>
                         </div>
                     </div>
-
                     <label
                         style={{ padding: "10px 0 0px 0" }}>
                         Ward:
                     </label>
                     <div className={styleLogin.wrapper}>
                         <div className={styleLogin.search} style={{ background: "#ccc", border: "0.01px gray solid" }}>
-                            {/* <span className='lineHeightProfile'>{items.data.ward}</span> */}
+                            <span className='lineHeightProfile'>{items.data.ward}</span>
                         </div>
                     </div>
-
                     <label
                         style={{ padding: "10px 0 0px 0" }}>
                         District:
                     </label>
                     <div className={styleLogin.wrapper}>
                         <div className={styleLogin.search} style={{ background: "#ccc", border: "0.01px gray solid" }}>
-                            {/* <span className='lineHeightProfile'>{items.data.district}</span> */}
+                            <span className='lineHeightProfile'>{items.data.district}</span>
                         </div>
                     </div>
-
                     <label
                         style={{ padding: "10px 0 0px 0" }}>
                         City:
                     </label>
                     <div className={styleLogin.wrapper}>
                         <div className={styleLogin.search} style={{ background: "#ccc", border: "0.01px gray solid" }}>
-                            {/* <span className='lineHeightProfile'>{items.data.city}</span> */}
+                            <span className='lineHeightProfile'>{items.data.city}</span>
                         </div>
                     </div>
                 </ul>
@@ -162,5 +190,4 @@ function Profile() {
         </div >
     ) : null
 }
-
 export default Profile

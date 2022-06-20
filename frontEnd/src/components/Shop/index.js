@@ -61,7 +61,7 @@ export default function Shop(props) {
     }, [])
     return (
         <div className={styleHome.paddingBottom} style={{ backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
-            <h1 style={{ paddingTop: '40px', paddingBot: '30px', color: 'white', fontSize: '100px' }} className={`${styleHome.center} ${styleHome.title}`}>All our product</h1>
+            <h1 style={{ paddingTop: '40px', paddingBottom: '30px', color: 'white', fontSize: '60px' }} className={`${styleHome.center} ${styleHome.title}`}>All our product</h1>
             <div className={` ${styleHome.gridContainer1}`}>
                 <div>
                 </div>
@@ -90,7 +90,7 @@ export default function Shop(props) {
                                 document.getElementById("divSortMovies").style.display = "block";
                             }
                         }}>
-                            <em>Sort by movies</em>
+                            <em className={styleShop.filter}>Sort by movies</em>
                             <span><AiFillCaretDown /></span>
                         </div>
                         <div id="divSortMovies" style={{
@@ -98,12 +98,12 @@ export default function Shop(props) {
                             marginLeft: '20px',
                             display: 'none'
                         }}>
-                            <div>Star War</div>
-                            <div>Lego City</div>
-                            <div>Harry Potter</div>
-                            <div>Mine Craft</div>
-                            <div>Marvel</div>
-                            <div>Kimetsu No Yaiba</div>
+                            <div className={styleShop.filter}>Star War</div>
+                            <div className={styleShop.filter}>Lego City</div>
+                            <div className={styleShop.filter}>Harry Potter</div>
+                            <div className={styleShop.filter}>Mine Craft</div>
+                            <div className={styleShop.filter}>Marvel</div>
+                            <div className={styleShop.filter}>Kimetsu No Yaiba</div>
                         </div>
                         <div style={{
                             display: 'grid',
@@ -119,7 +119,7 @@ export default function Shop(props) {
                             }
                         }}
                         >
-                            <em>LEGO® Theme</em>
+                            <em className={styleShop.filter}>LEGO® Theme</em>
                             <span><AiFillCaretDown /></span>
                         </div>
                         <div id="divLegoTheme" style={{
@@ -127,15 +127,15 @@ export default function Shop(props) {
                             marginLeft: '20px',
                             display: 'none'
                         }}>
-                            <div>Lego Technic</div>
-                            <div>Lego City</div>
-                            <div>Lego Disney</div>
-                            <div>Lego Harry Potter</div>
-                            <div>Lego DUPLO</div>
-                            <div>Lego Classic</div>
-                            <div>Lego Creator</div>
-                            <div>Lego Architecture</div>
-                            <div>Lego Minifigures</div>
+                            <div className={styleShop.filter}>Lego Technic</div>
+                            <div className={styleShop.filter}>Lego City</div>
+                            <div className={styleShop.filter}>Lego Disney</div>
+                            <div className={styleShop.filter}>Lego Harry Potter</div>
+                            <div className={styleShop.filter}>Lego DUPLO</div>
+                            <div className={styleShop.filter}>Lego Classic</div>
+                            <div className={styleShop.filter}>Lego Creator</div>
+                            <div className={styleShop.filter}>Lego Architecture</div>
+                            <div className={styleShop.filter}>Lego Minifigures</div>
                         </div>
                         <div>
                             <div style={{
@@ -172,7 +172,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbBoy" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Boy</label>
+                                    }} className={styleShop.filter}>Boy</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -194,7 +194,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbGirl" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Girl</label>
+                                    }} className={styleShop.filter}>Girl</label>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +209,7 @@ export default function Shop(props) {
                                 else {
                                     document.getElementById("divAge").style.display = "block";
                                 }
-                            }}><b><em>Age</em></b></span>
+                            }}><b><em className={styleShop.filter}>Age</em></b></span>
                             <div id="divAge">
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -231,7 +231,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbAgeUnder1" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Under 1 year old</label>
+                                    }} className={styleShop.filter}>Under 1 year old</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -253,7 +253,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbAge1to3" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>1 to 3 year old</label>
+                                    }} className={styleShop.filter}>1 to 3 year old</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -275,7 +275,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbAge3to6" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>3 to 6 year old</label>
+                                    }} className={styleShop.filter}>3 to 6 year old</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -297,7 +297,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbAge6to12" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>6 to 12 year old</label>
+                                    }} className={styleShop.filter}>6 to 12 year old</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -319,7 +319,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbAgeOver" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Over 12 years old</label>
+                                    }} className={styleShop.filter}>Over 12 years old</label>
                                 </div>
                             </div>
                         </div>
@@ -392,7 +392,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbBranchLego" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Lego</label>
+                                    }} className={styleShop.filter}>Lego</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -414,7 +414,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeHoyu" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Hoyu</label>
+                                    }} className={styleShop.filter}>Hoyu</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -436,7 +436,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbBranchSemboBlock" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Sembo Block</label>
+                                    }} className={styleShop.filter}>Sembo Block</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -458,7 +458,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbBranchLozBrick" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Loz Block</label>
+                                    }} className={styleShop.filter}>Loz Block</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -480,7 +480,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbBranchBalody" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Balody</label>
+                                    }} className={styleShop.filter}>Balody</label>
                                 </div>
                             </div>
                         </div>
@@ -519,7 +519,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeStarWar" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Star War</label>
+                                    }} className={styleShop.filter}>Star War</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -541,7 +541,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeLegoCity" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Lego City</label>
+                                    }} className={styleShop.filter}>Lego City</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -563,7 +563,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeHarryPotter" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Harry Potter</label>
+                                    }} className={styleShop.filter}>Harry Potter</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -585,7 +585,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeMineCraft" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Mine Craft</label>
+                                    }} className={styleShop.filter}>Mine Craft</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -607,7 +607,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeLegoClassic" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Lego Classic</label>
+                                    }} className={styleShop.filter}>Lego Classic</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -629,7 +629,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeLegoCreator" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Lego Creator</label>
+                                    }} className={styleShop.filter}>Lego Creator</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -651,7 +651,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeChrismast" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Christmas</label>
+                                    }} className={styleShop.filter}>Christmas</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -673,7 +673,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeDoraemon" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Doraemon</label>
+                                    }} className={styleShop.filter}>Doraemon</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -695,7 +695,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeLunaNewYear" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Luna New Year</label>
+                                    }} className={styleShop.filter}>Luna New Year</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -717,7 +717,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbThemeVehicle" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Vehicle</label>
+                                    }} className={styleShop.filter}>Vehicle</label>
                                 </div>
                             </div>
                         </div>
@@ -756,7 +756,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbOriginDenmark" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>Denmark</label>
+                                    }} className={styleShop.filter}>Denmark</label>
                                 </div>
                                 <div style={{
                                     borderBottomStyle: 'outset',
@@ -778,7 +778,7 @@ export default function Shop(props) {
                                     <label htmlFor="cbOriginChina" style={{
                                         paddingLeft: '5px',
                                         fontSize: '17px'
-                                    }}>China</label>
+                                    }} className={styleShop.filter}>China</label>
                                 </div>
                             </div>
                         </div>

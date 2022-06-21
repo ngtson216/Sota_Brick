@@ -19,10 +19,12 @@ export function GetNumberCart() {
     }
 }
 
-export function AddCart(payload) {
+export function AddCart(payload, quantity, maxQ) {
     return {
         type: 'ADD_CART',
-        payload
+        payload,
+        quantity,
+        maxQ,
     }
 }
 export function UpdateCart(payload) {

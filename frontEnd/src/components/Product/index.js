@@ -22,6 +22,7 @@ function Product(props) {
         props.parentCallback(p)
     }
     const [maxVal, setMaxVal] = useState()
+    const [quantity, setQuantity] = useState()
     useEffect(() => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", sessionStorage.getItem('token'));
@@ -44,7 +45,7 @@ function Product(props) {
             .catch(error => console.log('error', error));
     }, [])
     var callbackFunction = (childData) => {
-        console.log(childData)
+        setQuantity(childData)
     }
     return (
         <div>
@@ -92,8 +93,11 @@ function Product(props) {
                             <div style={{ marginTop: "2%" }}>
                                 <button className={styleProduct.btnProduct}>Buy now</button>
                                 <button className={styleProduct.btnProduct} onClick={() => {
-                                    props.AddCart(props.dataRedux)
-                                    sendData(props.numberCart)
+                                    if (quantity !== 0) {
+                                        props.AddCart(props.dataRedux, quantity, maxVal)
+                                        sendData(props.numberCart)
+                                    }
+                                    else alert('Quantity of product can not be zero')
                                 }}>Add to cart</button>
                             </div>
                         </div>
@@ -166,8 +170,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        AddCart: item => dispatch(AddCart(item))
-
+        AddCart: (item, qtt, maxQ) => dispatch(AddCart(item, qtt, maxQ))
     }
 }
 

@@ -8,6 +8,7 @@ import Nav from '../../CSS/Nav.module.css'
 import styleHeader from '../../CSS/Header.module.scss'
 import logo from '../../img/logo1.png'
 import Ava from './ava'
+import { connect } from 'react-redux'
 
 function Header(props) {
     var sendData = (p) => {
@@ -29,17 +30,19 @@ function Header(props) {
                             </li>
                             <li className={Nav.navbarItem}>
                                 <Link className={Nav.navbarItemLink} to="/Shop">Shop</Link>
-                                {/* <ul className={Nav.subnav}>
-                                    <li><Link to="/">All Product</Link></li>
-                                    <li><Link to="/">New Product</Link></li>
-                                </ul> */}
                             </li>
                             <li className={Nav.navbarItem}>
                                 <Link className={Nav.navbarItemLink} to="/AboutUs">About Us</Link>
                             </li>
 
                             <li className={Nav.navbarItem}>
-                                <Link className={`${Nav.navbarItemIcon} ${Nav.iconStyle}`} to="/Cart"><MdOutlineShoppingCart /></Link>
+                                <Link className={`${Nav.navbarItemIcon} ${Nav.iconStyle}`} to="/Cart"><MdOutlineShoppingCart /><span style={{
+                                    position: 'absolute',
+                                    fontSize: '18px',
+                                    color: 'red'
+                                }}>
+                                    {props.numberCart}
+                                </span></Link>
                             </li>
                             <li className={Nav.navbarItem}>
                                 <Ava />
@@ -70,5 +73,10 @@ function Header(props) {
         </div >
     )
 }
+const mapStateToProps = state => {
+    return {
+        numberCart: state.numberCart
+    }
+}
 
-export default Header
+export default connect(mapStateToProps)(Header)

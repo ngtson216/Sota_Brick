@@ -36,7 +36,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home searchData={mess} />} />
           <Route path="/AboutUs" element={<AboutUs />} />
-          <Route path="/Cart" element={<Cart />} />
+          <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Shop" element={<Shop searchData={mess} />} />
           <Route path="/SignUp" element={<SignUp />} />
@@ -49,17 +49,17 @@ function App() {
   else {
     return (
       <div>
-        <HeaderWhenLogged parentCallback={callbackFunction} />
+        <HeaderWhenLogged parentCallback={callbackFunction} data={mess2} />
         <Routes>
           <Route path="/" element={<Home searchData={mess} />} />
           <Route path="/AboutUs" element={<AboutUs />} />
-          <Route path="/Cart" element={<Cart />} />
+          <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/UserManager" element={<UserManager />} />
           <Route path="/Profile" element={<Profile />} />
-          <Route path="/Product" element={<Product />} />
+          <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
           <Route path="/StockManager" element={<StockManager />} />
         </Routes>
         <Footer />

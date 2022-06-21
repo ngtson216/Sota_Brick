@@ -38,7 +38,8 @@ function Header(props) {
                             <li className={Nav.navbarItem}>
                                 <Link className={`${Nav.navbarItemIcon} ${Nav.iconStyle}`} to="/Cart"><MdOutlineShoppingCart /> <span style={{
                                     position: 'absolute',
-                                    fontSize: '18px'
+                                    fontSize: '18px',
+                                    color: 'red'
                                 }}>
                                     {props.numberCart}
                                 </span></Link>

@@ -16,6 +16,7 @@ import initFontAwesome from "../src/initFontAwesome.js";
 import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
 import StockManager from '../src/components/Manager/StockManager'
+import { PayPalScriptProvider } from "@paypal/react-paypal-js"
 initFontAwesome();
 
 function App() {
@@ -31,39 +32,47 @@ function App() {
   }
   if (!isLogin) {
     return (
-      <div>
-        <Header parentCallback={callbackFunction} data={mess2} />
-        <Routes>
-          <Route path="/" element={<Home searchData={mess} />} />
-          <Route path="/AboutUs" element={<AboutUs />} />
-          <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Shop" element={<Shop searchData={mess} />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
-        </Routes>
-        <Footer />
-      </div>
+      <PayPalScriptProvider options={{
+        "client-id": "AYSW435EZGBmw2mThWg7-M16ELwuJ6Ow3dAcv8D4AnfkmIVnwSDzVUTxREbrEELk_ISGXL3zJQTamEzk"
+      }}>
+        <div>
+          <Header parentCallback={callbackFunction} data={mess2} />
+          <Routes>
+            <Route path="/" element={<Home searchData={mess} />} />
+            <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/Shop" element={<Shop searchData={mess} />} />
+            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
+          </Routes>
+          <Footer />
+        </div>
+      </PayPalScriptProvider>
     )
   }
   else {
     return (
-      <div>
-        <HeaderWhenLogged parentCallback={callbackFunction} data={mess2} />
-        <Routes>
-          <Route path="/" element={<Home searchData={mess} />} />
-          <Route path="/AboutUs" element={<AboutUs />} />
-          <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/UserManager" element={<UserManager />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
-          <Route path="/StockManager" element={<StockManager />} />
-        </Routes>
-        <Footer />
-      </div>
+      <PayPalScriptProvider options={{
+        "client-id": "AYSW435EZGBmw2mThWg7-M16ELwuJ6Ow3dAcv8D4AnfkmIVnwSDzVUTxREbrEELk_ISGXL3zJQTamEzk"
+      }}>
+        <div>
+          <HeaderWhenLogged parentCallback={callbackFunction} data={mess2} />
+          <Routes>
+            <Route path="/" element={<Home searchData={mess} />} />
+            <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
+            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/UserManager" element={<UserManager />} />
+            <Route path="/Profile" element={<Profile />} />
+            <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
+            <Route path="/StockManager" element={<StockManager />} />
+          </Routes>
+          <Footer />
+        </div>
+      </PayPalScriptProvider>
     )
   }
 }

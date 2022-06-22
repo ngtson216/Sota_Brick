@@ -5,6 +5,8 @@ import styleModal from '../../CSS/ModalNotification.module.css'
 import Popup from 'reactjs-popup'
 import styleShop from '../../CSS/Shop.module.css'
 import CreateStock from '../Create/CreateStock'
+import { MDBDataTable } from 'mdbreact';
+
 function loop(items) {
     const all = [];
     for (var i in items) {
@@ -65,6 +67,66 @@ export default function StockManager() {
                 }
             )
     }, [])
+
+    const data = {
+        columns: [
+            {
+                label: 'ID',
+                field: 'id',
+                sort: 'asc',
+                width: 150
+            },
+            {
+                label: 'Name Product',
+                field: 'name',
+                sort: 'asc',
+                width: 270
+            },
+            {
+                label: 'Type',
+                field: 'type',
+                sort: 'asc',
+                width: 200
+            },
+            {
+                label: 'Quantity',
+                field: 'quantity',
+                sort: 'asc',
+                width: 100
+            },
+            {
+                label: 'Created At',
+                field: 'at',
+                sort: 'asc',
+                width: 150
+            },
+            {
+                label: 'Description',
+                field: 'description',
+                sort: 'asc',
+                width: 100
+            }
+        ],
+        rows: loop(items).map((item) => (
+            {
+                id: loop(products).map((product) => {
+                    if (product._id === item.productId) {
+                        return product.productCode;
+                    }
+                }),
+                name: loop(products).map((product) => {
+                    if (product._id === item.productId) {
+                        return product.name;
+                    }
+                }),
+                type: item.type ? "Receiving" : "Delivering",
+                quantity: item.quantity,
+                at: item.createdAt.slice(11, 16) + ", " + item.createdAt.slice(8, 10) + "/" + item.createdAt.slice(5, 7) + "/" + item.createdAt.slice(0, 4),
+                description: item.description
+            }))
+
+    }
+
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
             <h1 style={{ padding: "5% 0% 10% 10%", color: "white", fontWeight: "600", position: "relative" }}>Product Stock Manager</h1>
@@ -89,54 +151,15 @@ export default function StockManager() {
                     </div>
                 )}
             </Popup>
-            <table className={tableStyle.table}>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name Product</th>
-                        <th>Type</th>
-                        <th>Quantity</th>
-                        <th>Created At</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        loop(items).map((item, index) => (
-                            <tr key={item._id}>
-                                <td>
-                                    {loop(products).map((product) => {
-                                        if (product._id === item.productId) {
-                                            return product.productCode;
-                                        }
-                                    })}
-                                </td>
-                                <td>
-                                    {loop(products).map((product) => {
-                                        if (product._id === item.productId) {
-                                            return product.name;
-                                        }
-                                    })}
-                                </td>
-                                <td>
-                                    {item.type ? "Receiving" : "Delivering"}
-                                </td>
-                                <td>
-                                    {item.quantity}
-                                </td>
-                                <td>
-                                    {item.createdAt.slice(11, 16)}, {item.createdAt.slice(8, 10)}
-                                    /{item.createdAt.slice(5, 7)}
-                                    /{item.createdAt.slice(0, 4)}
-                                </td>
-                                <td>
-                                    {item.description}
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <div style={{ width: "96%", margin: "2%", textAlign: "center" }}>
+                <MDBDataTable
+                    bordered
+                    data={data}
+                // striped
+                // small
+                // searching={false}
+                />
+            </div>
         </div>
     )
 }

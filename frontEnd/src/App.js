@@ -12,6 +12,7 @@ import SignUp from '../src/container/Login/signup'
 import Product from '../src/components/Product'
 import UserManager from '../src/components/Manager/UserManager'
 import Profile from '../src/components/Profile'
+import Payments from '../src/components/Payments'
 import initFontAwesome from "../src/initFontAwesome.js";
 import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
@@ -23,6 +24,7 @@ function App() {
   const isLogin = sessionStorage.getItem('token');
   const [mess, setMess] = useState()
   const [mess2, setMess2] = useState()
+  const [data, setData] = useState()
 
   var callbackFunction = (childData) => {
     setMess(childData)
@@ -30,25 +32,24 @@ function App() {
   var callbackFunction1 = (childData) => {
     setMess2(childData)
   }
+  var callbackFunction2 = (childData) => {
+    setData(childData)
+  }
   if (!isLogin) {
     return (
-      <PayPalScriptProvider options={{
-        "client-id": "AYSW435EZGBmw2mThWg7-M16ELwuJ6Ow3dAcv8D4AnfkmIVnwSDzVUTxREbrEELk_ISGXL3zJQTamEzk"
-      }}>
-        <div>
-          <Header parentCallback={callbackFunction} data={mess2} />
-          <Routes>
-            <Route path="/" element={<Home searchData={mess} />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Shop" element={<Shop searchData={mess} />} />
-            <Route path="/SignUp" element={<SignUp />} />
-            <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
-          </Routes>
-          <Footer />
-        </div>
-      </PayPalScriptProvider>
+      <div>
+        <Header parentCallback={callbackFunction} data={mess2} />
+        <Routes>
+          <Route path="/" element={<Home searchData={mess} />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} login={false} />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Shop" element={<Shop searchData={mess} />} />
+          <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
+        </Routes>
+        <Footer />
+      </div>
     )
   }
   else {
@@ -61,7 +62,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home searchData={mess} />} />
             <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} />} />
+            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} callbackData={callbackFunction2} login={true} />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
             <Route path="/SignUp" element={<SignUp />} />
@@ -69,6 +70,7 @@ function App() {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
             <Route path="/StockManager" element={<StockManager />} />
+            <Route path="/Payments" element={<Payments data={data} />} />
           </Routes>
           <Footer />
         </div>

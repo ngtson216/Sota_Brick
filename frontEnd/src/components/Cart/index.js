@@ -4,6 +4,8 @@ import { IncreaseQuantity, DecreaseQuantity, DeleteCart } from '../../Redux/stor
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineDelete } from "react-icons/ai";
 import { PayPalButtons } from '@paypal/react-paypal-js'
 import bgProfile from '../../img/bgProfile.jpg'
+import { Link } from 'react-router-dom';
+
 function Cart(props) {
     const [value, setValue] = useState(1);
     let sum = 0;
@@ -14,29 +16,32 @@ function Cart(props) {
     var sendData = (p) => {
         props.parentCallback(p)
     }
-    const [paidFor, setPaidFor] = useState(false);
-    const [error, setError] = useState(null);
+    var sendDataToPayments = (p) => {
+        props.callbackData(p)
+    }
+    // const [paidFor, setPaidFor] = useState(false);
+    // const [error, setError] = useState(null);
 
-    const handleApprove = (orderId) => {
-        // Call backend function to fulfill order
+    // const handleApprove = (orderId) => {
+    //     // Call backend function to fulfill order
 
-        // if response is success
-        setPaidFor(true);
-        // Refresh user's account or subscription status
+    //     // if response is success
+    //     setPaidFor(true);
+    //     // Refresh user's account or subscription status
 
-        // if response is error
-        // setError("Your payment was processed successfully. However, we are unable to fulfill your purchase. Please contact us at support@designcode.io for assistance.");
-    };
-    useEffect(() => {
-        if (paidFor) {
-            // Display success message, modal or redirect user to success page
-            alert("Thank you for your purchase!");
-        }
-        if (error) {
-            // Display error message, modal or redirect user to error page
-            alert(error);
-        }
-    }, [paidFor, error])
+    //     // if response is error
+    //     // setError("Your payment was processed successfully. However, we are unable to fulfill your purchase. Please contact us at support@designcode.io for assistance.");
+    // };
+    // useEffect(() => {
+    //     if (paidFor) {
+    //         // Display success message, modal or redirect user to success page
+    //         alert("Thank you for your purchase!");
+    //     }
+    //     if (error) {
+    //         // Display error message, modal or redirect user to error page
+    //         alert(error);
+    //     }
+    // }, [paidFor, error])
 
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
@@ -108,7 +113,20 @@ function Cart(props) {
                         </tbody>
                     </table>
                     <div>
-                        <PayPalButtons
+                        {props.login === false ? (
+                            <button onClick={() => {
+                                alert('Please login to continue purchase!')
+                            }}>
+                                Purchase Now!
+                            </button>
+                        ) : (< Link to='/Payments'>
+                            <button onClick={() => {
+                                sendDataToPayments(props.Cart)
+                            }}>
+                                Purchase Now!
+                            </button>
+                        </Link>)}
+                        {/* <PayPalButtons
                             style={{ "layout": "vertical" }}
                             disabled={false}
                             forceReRender={["2", "VND", { "layout": "vertical" }]}
@@ -151,11 +169,11 @@ function Cart(props) {
                                 setError(err);
                                 console.error("PayPal Checkout onError", err);
                             }}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 const mapStateToProps = state => {

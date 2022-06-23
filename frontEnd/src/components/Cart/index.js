@@ -12,36 +12,12 @@ function Cart(props) {
     props.Cart.map((item) => {
         sum = sum + (item.price * item.quantity)
     })
-    let sumToUSD = Math.round(sum * 0.000043)
     var sendData = (p) => {
         props.parentCallback(p)
     }
     var sendDataToPayments = (p) => {
         props.callbackData(p)
     }
-    // const [paidFor, setPaidFor] = useState(false);
-    // const [error, setError] = useState(null);
-
-    // const handleApprove = (orderId) => {
-    //     // Call backend function to fulfill order
-
-    //     // if response is success
-    //     setPaidFor(true);
-    //     // Refresh user's account or subscription status
-
-    //     // if response is error
-    //     // setError("Your payment was processed successfully. However, we are unable to fulfill your purchase. Please contact us at support@designcode.io for assistance.");
-    // };
-    // useEffect(() => {
-    //     if (paidFor) {
-    //         // Display success message, modal or redirect user to success page
-    //         alert("Thank you for your purchase!");
-    //     }
-    //     if (error) {
-    //         // Display error message, modal or redirect user to error page
-    //         alert(error);
-    //     }
-    // }, [paidFor, error])
 
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
@@ -126,50 +102,6 @@ function Cart(props) {
                                 Purchase Now!
                             </button>
                         </Link>)}
-                        {/* <PayPalButtons
-                            style={{ "layout": "vertical" }}
-                            disabled={false}
-                            forceReRender={["2", "VND", { "layout": "vertical" }]}
-                            fundingSource={undefined}
-                            onClick={(data, actions) => {
-                                // Validate on button click, client or server side
-                                const hasAlreadyBoughtCourse = false;
-
-                                if (hasAlreadyBoughtCourse) {
-                                    setError(
-                                        "You already bought this course. Go to your account to view your list of courses."
-                                    );
-                                    return actions.reject();
-                                } else {
-                                    return actions.resolve();
-                                }
-                            }}
-                            createOrder={(data, actions) => {
-                                return actions.order
-                                    .create({
-                                        purchase_units: [
-                                            {
-                                                amount: {
-                                                    currency_code: "USD",
-                                                    value: sumToUSD,
-                                                },
-                                            },
-                                        ],
-                                    })
-                            }}
-                            onApprove={async (data, actions) => {
-                                const order = await actions.order.capture();
-                                console.log("order", order);
-                                handleApprove(data.orderID);
-                            }}
-                            onCancel={() => {
-                                // Display cancel message, modal or redirect user to cancel page or back to cart
-                            }}
-                            onError={(err) => {
-                                setError(err);
-                                console.error("PayPal Checkout onError", err);
-                            }}
-                        /> */}
                     </div>
                 </div>
             </div>

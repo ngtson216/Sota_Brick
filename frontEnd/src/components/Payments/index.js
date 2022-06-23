@@ -6,10 +6,23 @@ import jwt_decode from "jwt-decode";
 
 function Payments(props) {
     let sum = 0;
+    let sumToUSD = 0;
+    let itemArr = [];
     props.data.map((item) => {
         sum = sum + (item.price * item.quantity)
     })
-    let sumToUSD = Math.round(sum * 0.000043)
+    props.data.map((item) => {
+        sumToUSD = sumToUSD + (Math.round(item.price * 0.000043) * item.quantity)
+        itemArr.push({
+            name: item.name,
+            quantity: item.quantity,
+            unit_amount: {
+                currency_code: "USD",
+                value: Math.round(item.price * 0.000043)
+            }
+        })
+    })
+    // let sumToUSD = Math.round(sum * 0.000043)
     const token = sessionStorage.getItem('token')
     const decoded = jwt_decode(sessionStorage.getItem('token'));
     const url = "http://localhost:8080/api/v1/users/" + decoded.id
@@ -46,7 +59,8 @@ function Payments(props) {
         }
         if (error) {
             // Display error message, modal or redirect user to error page
-            alert(error);
+            console.log(error)
+            // alert(error);
         }
     }, [paidFor, error])
     return (
@@ -126,6 +140,12 @@ function Payments(props) {
                                                     amount: {
                                                         currency_code: "USD",
                                                         value: sumToUSD,
+                                                        breakdown: {
+                                                            item_total: {
+                                                                currency_code: "USD",
+                                                                value: sumToUSD
+                                                            }
+                                                        }
                                                     },
                                                     shipping: {
                                                         address: {
@@ -137,7 +157,8 @@ function Payments(props) {
                                                         name: {
                                                             full_name: 'Nguyen Son'
                                                         },
-                                                    }
+                                                    },
+                                                    items: itemArr
                                                 },
                                             ],
                                         })
@@ -148,7 +169,7 @@ function Payments(props) {
                                     handleApprove(data.orderID);
                                 }}
                                 onCancel={() => {
-                                    // Display cancel message, modal or redirect user to cancel page or back to cart
+                                    console.log("cancel")
                                 }}
                                 onError={(err) => {
                                     setError(err);

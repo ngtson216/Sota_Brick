@@ -8,12 +8,10 @@ function Payments(props) {
     let sum = 0;
     let sumToUSD = 0;
     let itemArr = [];
-
-    props.data?.map((item) => {
+    props.data.map((item) => {
         sum = sum + (item.price * item.quantity)
     })
-
-    props.data?.map((item) => {
+    props.data.map((item) => {
         sumToUSD = sumToUSD + (Math.round(item.price * 0.000043) * item.quantity)
         itemArr.push({
             name: item.name,
@@ -44,25 +42,17 @@ function Payments(props) {
             .then(result => setItems(result))
             .catch(error => console.log('error', error));
     }, [])
-    const handleApprove = (orderId) => {
-        // Call backend function to fulfill order
-
-        // if response is success
+    const handleApprove = (order) => {
         setPaidFor(true);
-        // Refresh user's account or subscription status
-
-        // if response is error
-        // setError("Your payment was processed successfully. However, we are unable to fulfill your purchase. Please contact us at support@designcode.io for assistance.");
+        //Call API POST to order DB
+        //Call API stock check out
     };
     useEffect(() => {
         if (paidFor) {
-            // Display success message, modal or redirect user to success page
             alert("Thank you for your purchase!");
         }
         if (error) {
-            // Display error message, modal or redirect user to error page
-            console.log(error)
-            // alert(error);
+            alert(error);
         }
     }, [paidFor, error])
     return (
@@ -81,7 +71,7 @@ function Payments(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {props.data ? (
+                            {
                                 props.data.map((item, key) => (
                                     <tr>
                                         <td>{item.name}</td>
@@ -90,7 +80,7 @@ function Payments(props) {
                                         <td>{item.quantity}</td>
                                         <td>{item.price * item.quantity} VNĐ</td>
                                     </tr>
-                                ))) : null
+                                ))
                             }
                             <tr>
                                 <td>Total Payments Price</td>
@@ -167,8 +157,15 @@ function Payments(props) {
                                 }}
                                 onApprove={async (data, actions) => {
                                     const order = await actions.order.capture();
-                                    console.log("order", order);
-                                    handleApprove(data.orderID);
+                                    let orderObj = {
+                                        orderId: order.id,
+                                        create_time: order.create_time,
+                                        amount: sum,
+                                        customerName: order.purchase_units[0].shipping.name.full_name,
+                                        shippingAddress: order.purchase_units[0].shipping.address,
+                                        items: props.data
+                                    }
+                                    handleApprove(orderObj);
                                 }}
                                 onCancel={() => {
                                     console.log("cancel")

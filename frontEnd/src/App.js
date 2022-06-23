@@ -24,16 +24,12 @@ function App() {
   const isLogin = sessionStorage.getItem('token');
   const [mess, setMess] = useState()
   const [mess2, setMess2] = useState()
-  const [data, setData] = useState()
 
   var callbackFunction = (childData) => {
     setMess(childData)
   }
   var callbackFunction1 = (childData) => {
     setMess2(childData)
-  }
-  var callbackFunction2 = (childData) => {
-    setData(childData)
   }
   if (!isLogin) {
     return (
@@ -62,7 +58,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home searchData={mess} />} />
             <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} callbackData={callbackFunction2} login={true} />} />
+            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} login={true} />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
             <Route path="/SignUp" element={<SignUp />} />
@@ -70,7 +66,6 @@ function App() {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
             <Route path="/StockManager" element={<StockManager />} />
-            <Route path="/Payments" element={<Payments data={data} />} />
           </Routes>
           <Footer />
         </div>

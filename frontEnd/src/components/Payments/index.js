@@ -8,10 +8,12 @@ function Payments(props) {
     let sum = 0;
     let sumToUSD = 0;
     let itemArr = [];
-    props.data.map((item) => {
+
+    props.data?.map((item) => {
         sum = sum + (item.price * item.quantity)
     })
-    props.data.map((item) => {
+
+    props.data?.map((item) => {
         sumToUSD = sumToUSD + (Math.round(item.price * 0.000043) * item.quantity)
         itemArr.push({
             name: item.name,
@@ -64,8 +66,8 @@ function Payments(props) {
         }
     }, [paidFor, error])
     return (
-        <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
-            <h1 style={{ padding: "5% 0% 10% 10%", color: "white", fontWeight: "600", position: "relative" }}>Payments</h1>
+        <div>
+            <h1 >Payments</h1>
             <div className="row">
                 <div className="col-md-12">
                     <table className="table" style={{ textAlign: "center", width: "97%" }}>
@@ -79,7 +81,7 @@ function Payments(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {
+                            {props.data ? (
                                 props.data.map((item, key) => (
                                     <tr>
                                         <td>{item.name}</td>
@@ -88,7 +90,7 @@ function Payments(props) {
                                         <td>{item.quantity}</td>
                                         <td>{item.price * item.quantity} VNĐ</td>
                                     </tr>
-                                ))
+                                ))) : null
                             }
                             <tr>
                                 <td>Total Payments Price</td>

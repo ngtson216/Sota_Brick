@@ -1,31 +1,20 @@
 const mongoose = require('mongoose')
 
 const OrderSchema = new mongoose.Schema({
-  customerId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Customer",
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  tax: {
-    type: Number,
-    required: true,
-  },
-  discount: {
-    type: Number,
-    required: true,
-  },
+  // customerId: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "Customer",
+  //   required: true,
+  // },
   totalPrice: {
     type: Number,
-    required: true,
+    // required: true,
   },
-  isDeleted: {
-    type: Number,
-    enum: [0, 1],
-    default: 0
+  customerName: {
+    type: String,
+  },
+  shipping: {
+    type: Object
   },
   createdBy: {
     type: mongoose.Schema.ObjectId,

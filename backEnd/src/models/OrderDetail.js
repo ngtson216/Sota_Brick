@@ -4,7 +4,7 @@ const OrderDetailSchema = new mongoose.Schema({
   orderId: {
     type: mongoose.Schema.ObjectId,
     ref: "Order",
-    required: true,
+    // required: true,
   },
   productId: {
     type: mongoose.Schema.ObjectId,
@@ -12,6 +12,10 @@ const OrderDetailSchema = new mongoose.Schema({
     required: true,
   },
   price: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
     type: Number,
     required: true,
   },
@@ -25,12 +29,7 @@ const OrderDetailSchema = new mongoose.Schema({
   },
   totalPrice: {
     type: Number,
-    required: true,
-  },
-  isDeleted: {
-    type: Number,
-    enum: [0, 1],
-    default: 0
+    // required: true,
   },
   createdBy: {
     type: mongoose.Schema.ObjectId,

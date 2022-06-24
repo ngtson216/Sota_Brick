@@ -129,15 +129,15 @@ const createOrder = async (body, reqUser) => {
       return new UserError(401, "orderDetails cannot be blank")
 
     //  validate customerId
-    const customer = await Customer
-      .findOne({
-        _id: body.customerId,
-        isDeleted: 0
-      })
-      .populate('userId')
+    // const customer = await Customer
+    //   .findOne({
+    //     _id: body.customerId,
+    //     isDeleted: 0
+    //   })
+    //   .populate('userId')
 
-    if (!customer)
-      return new UserError(401, "Invalid customerId")
+    // if (!customer)
+    //   return new UserError(401, "Invalid customerId")
 
     const session = await mongoose.startSession()
     await session.withTransaction(async () => {
@@ -147,17 +147,8 @@ const createOrder = async (body, reqUser) => {
       const order = await Order.create(
         [{
           ...omit(body, ['orderDetails']),
-          price: items
-            .map(i => i.price)
-            .reduce((a, b) => a + b),
-          tax: items
-            .map(i => i.tax)
-            .reduce((a, b) => a + b),
-          discount: items
-            .map(i => i.discount)
-            .reduce((a, b) => a + b),
           totalPrice: items
-            .map(i => i.price + i.tax - i.discount)
+            .map(i => i.price * i.quantity + i.tax - i.discount)
             .reduce((a, b) => a + b),
           createdBy: reqUser._id
         }],
@@ -169,8 +160,8 @@ const createOrder = async (body, reqUser) => {
         [...items.map(item => {
           return {
             ...item,
-            orderId: order[0]._id,
-            totalPrice: item.price + item.tax - item.discount,
+            // orderId: order[0]._id,
+            totalPrice: item.price * item.quantity + item.tax - item.discount,
             createdBy: reqUser._id
           }
         })],
@@ -186,12 +177,12 @@ const createOrder = async (body, reqUser) => {
     session.endSession()
 
     // send mail to user
-    sendMail({
-      type: "order",
-      to: customer.userId.email,
-      username: customer.userId.username,
-      orderId: data._id
-    })
+    // sendMail({
+    //   type: "order",
+    //   to: customer.userId.email,
+    //   username: customer.userId.username,
+    //   orderId: data._id
+    // })
 
     return data || new UserError
   } catch (e) {

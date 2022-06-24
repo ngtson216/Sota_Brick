@@ -4,6 +4,31 @@ import { GoLocation } from "react-icons/go"
 import { PayPalButtons } from '@paypal/react-paypal-js'
 import jwt_decode from "jwt-decode";
 
+const decreaseStock = (id, quantity, description) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", sessionStorage.getItem('token'));
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "description": description,
+        "quantity": quantity,
+        "productId": id,
+        "type": 0
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/api/v1/stocks", requestOptions)
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
+
 function Payments(props) {
     let sum = 0;
     let sumToUSD = 0;
@@ -46,6 +71,10 @@ function Payments(props) {
         setPaidFor(true);
         //Call API POST to order DB
         //Call API stock check out
+        let desc = `Order By ${order.customerName} at ${order.create_time.slice(0, 10)}, and order id is ${order.orderId}`
+        order.items.map((item, key) => {
+            decreaseStock(item._id, item.quantity, desc)
+        })
     };
     useEffect(() => {
         if (paidFor) {
@@ -98,8 +127,8 @@ function Payments(props) {
                                 color: 'red',
                                 fontSize: '25px'
                             }} />Delivery Address</p>
-                            <span>Name: {items ? items.data.name : ''} | Phone Number: {items ? items.data.phone : ''}</span> <br />
-                            <span>Address: {items ? items.data.address : ''}</span><br />
+                            <span>Name: {(items && items.success === true) ? items.data.name : ''} | Phone Number: {(items && items.success === true) ? items.data.phone : ''}</span> <br />
+                            <span>Address: {(items && items.success === true) ? items.data.address : ''}</span><br />
                             <span>Ward, District, City</span><br />
                         </div>
                         <div >

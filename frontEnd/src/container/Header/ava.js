@@ -20,7 +20,7 @@ export default function Ava() {
     };
     const LogOut = () => {
         sessionStorage.removeItem('token');
-        sessionStorage.removeItem('roles');
+        sessionStorage.removeItem('role');
         window.location.href = '/'
     }
     const Profile = () => {

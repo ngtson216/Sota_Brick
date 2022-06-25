@@ -92,31 +92,47 @@ export default function Ava() {
             >
                 <MenuItem onClick={Profile} style={{
                     paddingBottom: '10px',
+
                 }}>
                     <Avatar /> <b>Profile</b>
                 </MenuItem>
-                <MenuItem onClick={AccountManagement} style={{
-                    paddingRight: '60px',
-                    paddingLeft: '30px',
-                    paddingBottom: '10px'
-                }}>
-                    Account Manager
-                </MenuItem>
-                <MenuItem onClick={Profile} style={{
-                    paddingRight: '60px',
-                    paddingLeft: '30px',
-                    paddingBottom: '10px'
-                }}>
-                    Profile
-                </MenuItem>
-                <MenuItem onClick={StockManager} style={{
-                    marginBottom: '200px',
-                    paddingRight: '60px',
-                    paddingLeft: '30px',
-                    paddingBottom: '10px'
-                }}>
-                    Stock Manager
-                </MenuItem>
+                {sessionStorage.getItem("role") === "customer" ?
+                    <MenuItem onClick={Profile} style={{
+                        paddingRight: '60px',
+                        paddingLeft: '30px',
+                        paddingBottom: '10px',
+                        width: '200px',
+                        marginBottom: '200px',
+                    }}>
+                        Profile
+                    </MenuItem> : null}
+
+                {sessionStorage.getItem("role") === "admin" ?
+                    <>
+                        <MenuItem onClick={Profile} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                        }}>
+                            Profile
+                        </MenuItem>
+                        <MenuItem onClick={AccountManagement} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px'
+                        }}>
+                            Account Manager
+                        </MenuItem>
+                        <MenuItem onClick={StockManager} style={{
+                            marginBottom: '200px',
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px'
+                        }}>
+                            Stock Manager
+                        </MenuItem>
+                    </>
+                    : null}
                 <Divider />
                 <MenuItem onClick={LogOut}>
                     <ListItemIcon>

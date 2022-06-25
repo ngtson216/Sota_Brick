@@ -22,6 +22,7 @@ initFontAwesome();
 
 function App() {
   const isLogin = sessionStorage.getItem('token');
+  const role = sessionStorage.getItem('role')
   const [mess, setMess] = useState()
   const [mess2, setMess2] = useState()
 
@@ -49,28 +50,52 @@ function App() {
     )
   }
   else {
-    return (
-      <PayPalScriptProvider options={{
-        "client-id": "AYSW435EZGBmw2mThWg7-M16ELwuJ6Ow3dAcv8D4AnfkmIVnwSDzVUTxREbrEELk_ISGXL3zJQTamEzk"
-      }}>
-        <div>
-          <HeaderWhenLogged parentCallback={callbackFunction} data={mess2} />
-          <Routes>
-            <Route path="/" element={<Home searchData={mess} />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} login={true} />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
-            <Route path="/SignUp" element={<SignUp />} />
-            <Route path="/UserManager" element={<UserManager />} />
-            <Route path="/Profile" element={<Profile />} />
-            <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
-            <Route path="/StockManager" element={<StockManager />} />
-          </Routes>
-          <Footer />
-        </div>
-      </PayPalScriptProvider>
-    )
+    if (role === "admin") {
+      return (
+        <PayPalScriptProvider options={{
+          "client-id": "AYSW435EZGBmw2mThWg7-M16ELwuJ6Ow3dAcv8D4AnfkmIVnwSDzVUTxREbrEELk_ISGXL3zJQTamEzk"
+        }}>
+          <div>
+            <HeaderWhenLogged parentCallback={callbackFunction} data={mess2} />
+            <Routes>
+              <Route path="/" element={<Home searchData={mess} />} />
+              <Route path="/AboutUs" element={<AboutUs />} />
+              <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} login={true} />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/UserManager" element={<UserManager />} />
+              <Route path="/Profile" element={<Profile />} />
+              <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
+              <Route path="/StockManager" element={<StockManager />} />
+            </Routes>
+            <Footer />
+          </div>
+        </PayPalScriptProvider>
+      )
+    }
+    else if (role === "customer") {
+      return (
+        <PayPalScriptProvider options={{
+          "client-id": "AYSW435EZGBmw2mThWg7-M16ELwuJ6Ow3dAcv8D4AnfkmIVnwSDzVUTxREbrEELk_ISGXL3zJQTamEzk"
+        }}>
+          <div>
+            <HeaderWhenLogged parentCallback={callbackFunction} data={mess2} />
+            <Routes>
+              <Route path="/" element={<Home searchData={mess} />} />
+              <Route path="/AboutUs" element={<AboutUs />} />
+              <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} login={true} />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Shop" element={<Shop searchData={mess} />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/Profile" element={<Profile />} />
+              <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
+            </Routes>
+            <Footer />
+          </div>
+        </PayPalScriptProvider>
+      )
+    }
   }
 }
 export default App;

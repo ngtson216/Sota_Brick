@@ -36,7 +36,7 @@ function AccessToken(username, password) {
         })
         .then(result => {
             sessionStorage.setItem("token", "Bearer " + result.token)
-            sessionStorage.setItem("roles", result.roles)
+            sessionStorage.setItem("role", result.user.role)
             window.location.href = '/'
         })
         .catch(error => {

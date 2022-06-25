@@ -17,7 +17,6 @@ const getOrders = async query => {
     const skip = (page - 1) * limit
 
     const orders = await Order.aggregate([
-      { $match: { isDeleted: 0 } },
       {
         $lookup: {
           from: "order-details",
@@ -160,7 +159,7 @@ const createOrder = async (body, reqUser) => {
         [...items.map(item => {
           return {
             ...item,
-            // orderId: order[0]._id,
+            orderId: order[0]._id,
             totalPrice: item.price * item.quantity + item.tax - item.discount,
             createdBy: reqUser._id
           }

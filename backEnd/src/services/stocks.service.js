@@ -139,7 +139,9 @@ const checkStockAvailable = async (_id) => {
   try {
     const stockIn = await checkStockIn(_id);
     const stockOut = await checkStockOut(_id);
-    return stockIn - stockOut;
+    if (stockOut > 0)
+      return stockIn - stockOut;
+    else return stockIn - 0
   } catch (e) {
     return new UserError();
   }

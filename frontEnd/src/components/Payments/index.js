@@ -31,6 +31,29 @@ const decreaseStock = (id, quantity, description) => {
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 }
+const createOrder = (name, shippingObj, orderDetailsArr) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", sessionStorage.getItem('token'));
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "customerName": name,
+        "shipping": shippingObj,
+        "orderDetails": orderDetailsArr,
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/api/v1/orders/", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
 
 function Payments(props) {
     let sum = 0;
@@ -73,8 +96,19 @@ function Payments(props) {
     const handleApprove = (order) => {
         setPaidFor(true);
         //Call API POST to order DB
-        //Call API stock check out
-        let desc = `Order By ${order.customerName} at ${order.create_time.slice(0, 10)}, and order id is ${order.orderId}`
+        let orderArr = [];
+        order.items.map((item) => {
+            orderArr.push({
+                "price": item.price,
+                "quantity": item.quantity,
+                "tax": item.tax,
+                "discount": item.discount,
+                "productId": item._id
+            })
+        })
+        createOrder(order.customerName, order.shippingAddress, orderArr)
+        // Call API stock check out
+        let desc = `Order By ${order.customerName} at ${order.create_time.slice(0, 10)}`
         order.items.map((item, key) => {
             decreaseStock(item._id, item.quantity, desc)
         })
@@ -204,13 +238,13 @@ function Payments(props) {
                                                 },
                                                 shipping: {
                                                     address: {
-                                                        address_line_1: 'hellooo dmm',
-                                                        admin_area_2: 'xin chao dmm',
+                                                        address_line_1: items.data.address,
+                                                        admin_area_2: `${items.data.ward}, ${items.data.district}, ${items.data.city}`,
                                                         postal_code: '10000',
                                                         country_code: 'VN',
                                                     },
                                                     name: {
-                                                        full_name: 'Nguyen Son'
+                                                        full_name: items.data.name
                                                     },
                                                 },
                                                 items: itemArr

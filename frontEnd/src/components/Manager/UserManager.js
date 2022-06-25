@@ -7,7 +7,9 @@ import bgProfile from '../../img/bgProfile.jpg'
 import DeleteUser from '../Delete/deleteUser';
 import styleModal from '../../CSS/ModalNotification.module.css'
 import Popup from 'reactjs-popup';
-
+import { Table } from 'antd'
+import '../../CSS/TableAntd.css'
+import 'antd/dist/antd.css'
 function loop(items) {
     const allUser = [];
     for (var i in items) {
@@ -52,59 +54,75 @@ export default function UserManager() {
                 }
             )
     }, [])
+    const columns = [
+        {
+            title: 'STT',
+            render: (_, record, index) => {
+                return <span>{index + 1}</span>
+            },
+            align: 'center'
+        },
+        {
+            title: 'Username',
+            key: 'username',
+            dataIndex: 'username',
+            align: 'center'
+        },
+        {
+            title: 'Role',
+            key: 'role',
+            dataIndex: 'role',
+            align: 'center'
+        },
+        {
+            title: 'Edit',
+            align: 'center',
+            render: (_, record, index) => {
+                return (
+                    <div>
+                        <Link to="/">
+                            <FiEdit className={tableStyle.icon} />
+                        </Link>
+                        <AiFillDelete className={tableStyle.icon}
+                            onClick={() => {
+                                setGetIdDel(items.data[index]._id)
+                                setOpen(o => !o)
+                            }} />
+                        <Popup {...{ overlayStyle }} open={open} closeOnDocumentClick onClose={closeModal} modal nested>
+                            {(close) => {
+                                return (
+                                    <div className={styleModal.modal}>
+                                        <button className={styleModal.close} onClick={close}>
+                                            &times;
+                                        </button>
+                                        <div className={styleModal.actions}>
+                                            <DeleteUser dataFromParent={getIdDel} callback={setClose} />
+                                        </div>
+                                    </div>
+                                )
+                            }}
+                        </Popup>
+                    </div>
+                )
+            }
+        }
+    ]
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
-            <h1 style={{ padding: "5% 0% 10% 10%", color: "white", fontWeight: "600", position: "relative" }}>User Accounts Manager</h1>
-            <table className={tableStyle.table}>
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Chỉnh sửa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        loop(items).map((item, index) => (
-                            <tr key={item._id}>
-                                <td>{index + 1}</td>
-                                <td>
-                                    {item.username}
-                                </td>
-                                <td>
-                                    {item.role}
-                                </td>
-                                <td>
-                                    <Link to="/">
-                                        <FiEdit className={tableStyle.icon} />
-                                    </Link>
-                                    <AiFillDelete className={tableStyle.icon}
-                                        onClick={() => {
-                                            setGetIdDel(items.data[index]._id)
-                                            setOpen(o => !o)
-                                        }} />
-                                    <Popup {...{ overlayStyle }} open={open} closeOnDocumentClick onClose={closeModal} modal nested>
-                                        {(close) => {
-                                            return (
-                                                <div className={styleModal.modal}>
-                                                    <button className={styleModal.close} onClick={close}>
-                                                        &times;
-                                                    </button>
-                                                    <div className={styleModal.actions}>
-                                                        <DeleteUser dataFromParent={getIdDel} callback={setClose} />
-                                                    </div>
-                                                </div>
-                                            )
-                                        }}
-                                    </Popup>
-
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <h1 style={{ padding: "5% 0% 10% 0%", color: "white", fontWeight: "600", position: "relative" }}>User Accounts Manager</h1>
+            <div style={{
+                paddingRight: '5%'
+            }}>
+                <Table
+                    columns={columns}
+                    dataSource={loop(items)}
+                    scroll={{ x: 1300 }}
+                    bordered={true}
+                    pagination={{
+                        position: ['bottomCenter']
+                    }}
+                />
+            </div>
         </div >
     )
 }

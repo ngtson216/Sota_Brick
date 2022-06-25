@@ -9,6 +9,7 @@ import Popup from 'reactjs-popup';
 import Payments from '../Payments';
 import styleShop from '../../CSS/Shop.module.css'
 import { Table } from 'antd'
+import '../../CSS/TableAntd.css'
 import 'antd/dist/antd.css'
 function Cart(props) {
     const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
@@ -97,11 +98,11 @@ function Cart(props) {
                     }} />
                 )
             }
-        }
+        },
     ]
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
-            <h1 style={{ padding: "5% 0% 10% 10%", color: "white", fontWeight: "600", position: "relative" }}>Cart</h1>
+            <h1 style={{ padding: "5% 0% 10% 0%", color: "white", fontWeight: "600", position: "relative" }}>Cart</h1>
             <div>
                 <Table
                     columns={columns}
@@ -109,18 +110,24 @@ function Cart(props) {
                     pagination={false}
                     scroll={{ x: 1300 }}
                 />
+                <div style={{ padding: "2% 0% 0% 2%", fontSize: '20px' }}>
+                    <b>Total Price: </b>{sum} VNĐ
+                </div>
                 <div>
                     {props.login === false ? (
-                        <button onClick={() => {
-                            alert('Please login to continue purchase!')
-                        }}>
+                        <button
+                            className={styleShop.btnPurchase}
+                            style={{ float: "right", margin: "2% 3% 0 0" }}
+                            onClick={() => {
+                                alert('Please login to continue purchase!')
+                            }}>
                             Purchase Now!
                         </button>
                     ) : (<Popup trigger={
-                        <button style={{
-                            marginLeft: '77%',
-                            marginBottom: '30px'
-                        }}>
+                        <button
+                            className={styleShop.btnPurchase}
+                            style={{ float: "right", margin: "2% 3% 0 0" }}
+                        >
                             Purchase Now!
                         </button>
                     }{...{ overlayStyle }} modal nested>

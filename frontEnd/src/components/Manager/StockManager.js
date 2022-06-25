@@ -5,6 +5,9 @@ import styleModal from '../../CSS/ModalNotification.module.css'
 import Popup from 'reactjs-popup'
 import styleShop from '../../CSS/Shop.module.css'
 import CreateStock from '../Create/CreateStock'
+import { Table } from 'antd'
+import '../../CSS/TableAntd.css'
+import 'antd/dist/antd.css'
 function loop(items) {
     const all = [];
     for (var i in items) {
@@ -21,7 +24,7 @@ export default function StockManager() {
     const [items, setItems] = useState([]);
     const [products, setProducts] = useState([]);
     const decoded = sessionStorage.getItem('token');
-    const url = "http://localhost:8080/api/v1/stocks/?page=1&limit=10000"
+    const url = "http://localhost:8080/api/v1/stocks/"
     const urlProduct = "http://localhost:8080/api/v1/products"
     useEffect(() => {
         var myHeaders = new Headers();
@@ -65,6 +68,62 @@ export default function StockManager() {
                 }
             )
     }, [])
+    const columns = [
+        {
+            title: 'ID',
+            render: (_, record) => {
+                let code
+                loop(products).map((product) => {
+                    if (product._id === record.productId) {
+                        return code = product.productCode
+                    }
+                })
+                return <span>{code}</span>
+            },
+            align: 'center'
+        },
+        {
+            title: 'Name Product',
+            render: (_, record) => {
+                let name
+                loop(products).map((product) => {
+                    if (product._id === record.productId) {
+                        return name = product.name;
+                    }
+                })
+                return <span>{name}</span>
+            },
+            align: 'center'
+        },
+        {
+            title: 'Type',
+            render: (_, record) => {
+                return <span>{record.type ? "Receiving" : "Delivering"}</span>
+            },
+            align: 'center'
+        },
+        {
+            title: 'Quantity',
+            key: 'quantity',
+            dataIndex: 'quantity',
+            align: 'center'
+        },
+        {
+            title: 'Created At',
+            render: (_, record) => {
+                return <span> {record.createdAt.slice(11, 16)}, {record.createdAt.slice(8, 10)}
+                    /{record.createdAt.slice(5, 7)}
+                    /{record.createdAt.slice(0, 4)}</span>
+            },
+            align: 'center'
+        },
+        {
+            title: 'Description',
+            key: 'description',
+            dataIndex: 'description',
+            align: 'center'
+        }
+    ]
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
             <h1 style={{ padding: "5% 0% 10% 10%", color: "white", fontWeight: "600", position: "relative" }}>Product Stock Manager</h1>
@@ -89,54 +148,20 @@ export default function StockManager() {
                     </div>
                 )}
             </Popup>
-            <table className={tableStyle.table}>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name Product</th>
-                        <th>Type</th>
-                        <th>Quantity</th>
-                        <th>Created At</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        loop(items).map((item, index) => (
-                            <tr key={item._id}>
-                                <td>
-                                    {loop(products).map((product) => {
-                                        if (product._id === item.productId) {
-                                            return product.productCode;
-                                        }
-                                    })}
-                                </td>
-                                <td>
-                                    {loop(products).map((product) => {
-                                        if (product._id === item.productId) {
-                                            return product.name;
-                                        }
-                                    })}
-                                </td>
-                                <td>
-                                    {item.type ? "Receiving" : "Delivering"}
-                                </td>
-                                <td>
-                                    {item.quantity}
-                                </td>
-                                <td>
-                                    {item.createdAt.slice(11, 16)}, {item.createdAt.slice(8, 10)}
-                                    /{item.createdAt.slice(5, 7)}
-                                    /{item.createdAt.slice(0, 4)}
-                                </td>
-                                <td>
-                                    {item.description}
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <div style={{
+                margin: '2rem auto 9rem auto',
+                width: '97%',
+            }}>
+                <Table
+                    columns={columns}
+                    dataSource={loop(items)}
+                    scroll={{ x: 1300 }}
+                    pagination={{
+                        position: ['bottomCenter']
+                    }}
+                    bordered={true}
+                />
+            </div>
         </div>
     )
 }

@@ -9,7 +9,7 @@ const getStocks = async (query) => {
     let { page, limit } = query;
 
     page = parseInt(page) || 1;
-    limit = parseInt(limit) || 20;
+    limit = parseInt(limit) || 1000000;
     const skip = (page - 1) * limit;
 
     const stocks = await Stock.aggregate([

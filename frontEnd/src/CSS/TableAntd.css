@@ -1,0 +1,47 @@
+.ant-table-thead>tr>th {
+    background: #95ff94 !important;
+    font-weight: bold !important;
+    border-color: black !important;
+}
+
+.ant-pagination-item:hover {
+    border-color: #95ff94 !important;
+    background: #95ff94 !important;
+
+}
+
+.ant-pagination-item:focus-visible {
+    border-color: #95ff94 !important;
+    background: #95ff94 !important;
+
+}
+
+.ant-pagination-item-active {
+    border-color: #95ff94 !important;
+    background: #95ff94 !important;
+
+}
+
+.ant-pagination-prev:focus-visible .ant-pagination-item-link,
+.ant-pagination-next:focus-visible .ant-pagination-item-link {
+    color: #000000 !important;
+    border-color: #95ff94 !important;
+}
+
+.ant-pagination-prev:hover .ant-pagination-item-link,
+.ant-pagination-next:hover .ant-pagination-item-link {
+    color: #000000 !important;
+    border-color: #95ff94 !important;
+}
+
+.ant-pagination-simple .ant-pagination-simple-pager input:hover {
+    border-color: #95ff94 !important;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: #95ff94 !important;
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #95ff94 !important;
+}

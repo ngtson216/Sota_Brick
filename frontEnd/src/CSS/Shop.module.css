@@ -122,3 +122,28 @@ button {
 .filter:hover {
     color: #FF3333;
 }
+
+.btnPurchase {
+    height: 3em;
+    width: 12em;
+    background-color: #df494a;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.btnPurchase:hover {
+    background-color: #b80707;
+}
+
+.btnChangeDelivery {
+    margin-top: 1.5em;
+    height: 2.6em;
+    width: 18em;
+    background-color: #df494a;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.btnChangeDelivery:hover {
+    background-color: #b80707;
+}

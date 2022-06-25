@@ -3,7 +3,10 @@ import bgProfile from '../../img/bgProfile.jpg'
 import { GoLocation } from "react-icons/go"
 import { PayPalButtons } from '@paypal/react-paypal-js'
 import jwt_decode from "jwt-decode";
-
+import { Table } from 'antd'
+import '../../CSS/TableAntd.css'
+import 'antd/dist/antd.css'
+import styleShop from '../../CSS/Shop.module.css'
 const decreaseStock = (id, quantity, description) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", sessionStorage.getItem('token'));
@@ -84,127 +87,157 @@ function Payments(props) {
             alert(error);
         }
     }, [paidFor, error])
+    const columns = [
+        {
+            title: 'Name',
+            key: 'name',
+            dataIndex: 'name',
+            width: 400
+        },
+        {
+            title: 'Image',
+            render: (value) => {
+                return <img src={'http://localhost:8080' + value.product_images[0].url} width="50px" height="50px" alt="Product" />
+            },
+            align: 'center'
+        },
+        {
+            title: 'Price',
+            key: 'price',
+            align: 'center',
+            render: (value) => {
+                return <span>{value.price} VNĐ</span>
+            }
+        },
+        {
+            title: 'Quantity',
+            key: 'quantity',
+            align: 'center',
+            render: (_, record, index) => {
+                return (
+                    <span>{record.quantity}</span>
+                )
+            }
+        },
+        {
+            title: 'Total Price',
+            align: 'center',
+            render: (_, record) => {
+                return <span>{record.price * record.quantity} VNĐ</span>
+            }
+        },
+    ]
     return (
         <div>
-            <h1 >Payments</h1>
-            <div className="row">
-                <div className="col-md-12">
-                    <table className="table" style={{ textAlign: "center", width: "97%" }}>
-                        <thead style={{ backgroundColor: "#95ff94" }}>
-                            <tr>
-                                <th>Name</th>
-                                <th>Image</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                props.data.map((item, key) => (
-                                    <tr>
-                                        <td>{item.name}</td>
-                                        <td><img src={'http://localhost:8080' + item.product_images[0].url} width="50px" height="50px" alt="Product" /></td>
-                                        <td>{item.price} VNĐ</td>
-                                        <td>{item.quantity}</td>
-                                        <td>{item.price * item.quantity} VNĐ</td>
-                                    </tr>
-                                ))
-                            }
-                            <tr>
-                                <td>Total Payments Price</td>
-                                <td colSpan="3"></td>
-                                <th>{sum} VNĐ</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'auto auto'
-                    }}>
-                        <div>
-                            <p> <GoLocation style={{
-                                color: 'red',
-                                fontSize: '25px'
-                            }} />Delivery Address</p>
-                            <span>Name: {(items && items.success === true) ? items.data.name : ''} | Phone Number: {(items && items.success === true) ? items.data.phone : ''}</span> <br />
-                            <span>Address: {(items && items.success === true) ? items.data.address : ''}</span><br />
-                            <span>Ward, District, City</span><br />
-                        </div>
-                        <div >
-                            <p>Purchase With </p>
-                            <PayPalButtons
-                                style={{
-                                    "layout": "vertical",
-                                }}
-                                disabled={false}
-                                forceReRender={["2", "VND", { "layout": "vertical" }]}
-                                fundingSource={undefined}
-                                onClick={(data, actions) => {
-                                    // Validate on button click, client or server side
-                                    const hasAlreadyBoughtCourse = false;
+            <h1 style={{ textAlign: "center", fontSize: "32px", paddingBottom: "1%" }}>Payments</h1>
+            <div style={{ margin: "1.5%" }}>
+                <Table
+                    columns={columns}
+                    dataSource={props.data}
+                    pagination={false}
+                    scroll={{ x: 700, y: 300 }}
+                />
+                <div style={{ padding: "2% 0% 0% 2%", fontSize: '20px' }}>
+                    <b>Total Price: </b>{sum} VNĐ
+                </div>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'auto auto'
+                }}>
+                    <div style={{ padding: "2% 0% 0% 5%" }}>
+                        <b> <GoLocation style={{
+                            color: 'red',
+                            fontSize: '25px',
+                            margin: '1% 1.5% 1.5% 0%',
+                        }} />Delivery Address</b> <br />
+                        <span><b>Name: </b> {items ? items.data.name : ''} | <b>Phone Number:</b> {items ? items.data.phone : ''}</span> <br />
+                        <span><b>Address: </b> {items ? items.data.address : ''}</span><br />
+                        <span><b>Ward: </b> {items ? items.data.ward : ''},
+                            <b> District: </b> {items ? items.data.district : ''},
+                            <b> City: </b> {items ? items.data.city : ''}
+                        </span><br />
+                        <button className={styleShop.btnChangeDelivery}
+                            onClick={{}}
+                        >
+                            Change Delivery Address
+                        </button>
+                    </div>
+                    <div style={{ width: "80%", margin: "3% 0% 0% 0%" }}>
+                        <p style={{ fontWeight: "600" }}>Purchase With </p>
+                        <PayPalButtons
+                            style={{
+                                "layout": "horizontal",
+                                "shape": "pill",
+                                "color": "gold",
+                                "label": "pay"
+                            }}
+                            disabled={false}
+                            forceReRender={["2", "VND", { "layout": "vertical" }]}
+                            fundingSource={undefined}
+                            onClick={(data, actions) => {
+                                // Validate on button click, client or server side
+                                const hasAlreadyBoughtCourse = false;
 
-                                    if (hasAlreadyBoughtCourse) {
-                                        setError(
-                                            "You already bought this course. Go to your account to view your list of courses."
-                                        );
-                                        return actions.reject();
-                                    } else {
-                                        return actions.resolve();
-                                    }
-                                }}
-                                createOrder={(data, actions) => {
-                                    return actions.order
-                                        .create({
-                                            purchase_units: [
-                                                {
-                                                    amount: {
-                                                        currency_code: "USD",
-                                                        value: sumToUSD,
-                                                        breakdown: {
-                                                            item_total: {
-                                                                currency_code: "USD",
-                                                                value: sumToUSD
-                                                            }
+                                if (hasAlreadyBoughtCourse) {
+                                    setError(
+                                        "You already bought this course. Go to your account to view your list of courses."
+                                    );
+                                    return actions.reject();
+                                } else {
+                                    return actions.resolve();
+                                }
+                            }}
+                            createOrder={(data, actions) => {
+                                return actions.order
+                                    .create({
+                                        purchase_units: [
+                                            {
+                                                amount: {
+                                                    currency_code: "USD",
+                                                    value: sumToUSD,
+                                                    breakdown: {
+                                                        item_total: {
+                                                            currency_code: "USD",
+                                                            value: sumToUSD
                                                         }
-                                                    },
-                                                    shipping: {
-                                                        address: {
-                                                            address_line_1: 'hellooo dmm',
-                                                            admin_area_2: 'xin chao dmm',
-                                                            postal_code: '10000',
-                                                            country_code: 'VN',
-                                                        },
-                                                        name: {
-                                                            full_name: 'Nguyen Son'
-                                                        },
-                                                    },
-                                                    items: itemArr
+                                                    }
                                                 },
-                                            ],
-                                        })
-                                }}
-                                onApprove={async (data, actions) => {
-                                    const order = await actions.order.capture();
-                                    let orderObj = {
-                                        orderId: order.id,
-                                        create_time: order.create_time,
-                                        amount: sum,
-                                        customerName: order.purchase_units[0].shipping.name.full_name,
-                                        shippingAddress: order.purchase_units[0].shipping.address,
-                                        items: props.data
-                                    }
-                                    handleApprove(orderObj);
-                                }}
-                                onCancel={() => {
-                                    console.log("cancel")
-                                }}
-                                onError={(err) => {
-                                    setError(err);
-                                    console.error("PayPal Checkout onError", err);
-                                }}
-                            />
-                        </div>
+                                                shipping: {
+                                                    address: {
+                                                        address_line_1: 'hellooo dmm',
+                                                        admin_area_2: 'xin chao dmm',
+                                                        postal_code: '10000',
+                                                        country_code: 'VN',
+                                                    },
+                                                    name: {
+                                                        full_name: 'Nguyen Son'
+                                                    },
+                                                },
+                                                items: itemArr
+                                            },
+                                        ],
+                                    })
+                            }}
+                            onApprove={async (data, actions) => {
+                                const order = await actions.order.capture();
+                                let orderObj = {
+                                    orderId: order.id,
+                                    create_time: order.create_time,
+                                    amount: sum,
+                                    customerName: order.purchase_units[0].shipping.name.full_name,
+                                    shippingAddress: order.purchase_units[0].shipping.address,
+                                    items: props.data
+                                }
+                                handleApprove(orderObj);
+                            }}
+                            onCancel={() => {
+                                console.log("cancel")
+                            }}
+                            onError={(err) => {
+                                setError(err);
+                                console.error("PayPal Checkout onError", err);
+                            }}
+                        />
                     </div>
                 </div>
             </div>

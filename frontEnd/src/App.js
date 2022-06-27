@@ -12,7 +12,7 @@ import SignUp from '../src/container/Login/signup'
 import Product from '../src/components/Product'
 import UserManager from '../src/components/Manager/UserManager'
 import Profile from '../src/components/Profile'
-import Payments from '../src/components/Payments'
+import Order from '../src/components/Order'
 import initFontAwesome from "../src/initFontAwesome.js";
 import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
@@ -68,6 +68,7 @@ function App() {
               <Route path="/Profile" element={<Profile />} />
               <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
               <Route path="/StockManager" element={<StockManager />} />
+              <Route path="/Order" element={<Order />} />
             </Routes>
             <Footer />
           </div>

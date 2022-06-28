@@ -147,3 +147,9 @@ button {
 .btnChangeDelivery:hover {
     background-color: #b80707;
 }
+
+.divClick:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

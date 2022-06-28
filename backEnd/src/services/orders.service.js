@@ -2,6 +2,7 @@ const { omit } = require('lodash')
 const mongoose = require('mongoose')
 const { Promise } = require('bluebird')
 const Order = require('../models/Order')
+const OrderDetail = require('../models/OrderDetail')
 const ObjectId = mongoose.Types.ObjectId
 const Customer = require('../models/Customer')
 const UserError = require('../utils/userError')
@@ -23,39 +24,38 @@ const getOrders = async query => {
           localField: "_id",
           foreignField: "orderId",
           as: "orderDetails",
-        }
+        },
       },
-      {
-        $unwind: {
-          path: "$orderDetails",
-          preserveNullAndEmptyArrays: true
-        }
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "orderDetails.productId",
-          foreignField: "_id",
-          as: "orderDetails.products",
-        }
-      },
-      {
-        $unwind: {
-          path: "$orderDetails.products"
-        }
-      },
-      {
-        $lookup: {
-          from: "product_images",
-          localField: "orderDetails.products._id",
-          foreignField: "productId",
-          as: "orderDetails.products.images",
-        }
-      },
+      // {
+      //   $unwind: {
+      //     path: "$orderDetails",
+      //     preserveNullAndEmptyArrays: true
+      //   }
+      // },
+      // {
+      //   $lookup: {
+      //     from: "products",
+      //     localField: "productId",
+      //     foreignField: "_id",
+      //     as: "products",
+      //   }
+      // },
+      // {
+      //   $unwind: {
+      //     path: "$orderDetails.products"
+      //   }
+      // },
+      // {
+      //   $lookup: {
+      //     from: "product_images",
+      //     localField: "orderDetails.products._id",
+      //     foreignField: "productId",
+      //     as: "orderDetails.products.images",
+      //   }
+      // },
       { $skip: skip },
       { $limit: limit },
     ])
-
     return orders
   } catch (e) {
     return new UserError

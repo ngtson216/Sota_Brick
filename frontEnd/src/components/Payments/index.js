@@ -50,7 +50,7 @@ const createOrder = (name, shippingObj, orderDetailsArr) => {
     };
 
     fetch("http://localhost:8080/api/v1/orders/", requestOptions)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 }
@@ -116,6 +116,8 @@ function Payments(props) {
     useEffect(() => {
         if (paidFor) {
             alert("Thank you for your purchase!");
+            localStorage.removeItem('persist:root');
+            window.location.reload()
         }
         if (error) {
             alert(error);

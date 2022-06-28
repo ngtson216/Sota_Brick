@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-
 const OrderDetailSchema = new mongoose.Schema({
   orderId: {
     type: mongoose.Schema.ObjectId,

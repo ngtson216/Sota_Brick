@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styleLogin from '../../CSS/Login.module.css'
-const gender = [
-    'Boy',
-    'Girl'
-]
+
 function EditProf(_id, name, gender, age, email, phone, identification, address, ward, district, city) {
-    if (gender === 'Boy') {
-        var newGender = true
-    }
-    else if (gender === 'Girl') {
-        newGender = false
-    }
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", sessionStorage.getItem('token'));
     var raw = JSON.stringify({
         "name": name,
         "gender": gender,
@@ -38,7 +30,10 @@ function EditProf(_id, name, gender, age, email, phone, identification, address,
                 alert('Your profile update successfully')
                 window.location.reload()
             }
-            console.log(result)
+            else {
+                alert('Error!! Your profile update unsuccessfully')
+                console.log(result)
+            }
         })
         .catch(error => console.log('error', error));
 }
@@ -53,6 +48,46 @@ export default function EditProfile(props) {
     const [getWard, setWard] = useState();
     const [getDistrict, setDistrict] = useState();
     const [getCity, setCity] = useState();
+    const [getOneCity, setOneCity] = useState(null);
+    const [getOneDis, setOneDis] = useState(null);
+    const [getExactCity, setExactCity] = useState(null);
+    const [getExactDis, setExactDis] = useState(null);
+    const [getExactWard, setExactWard] = useState(null);
+
+    const url = "https://provinces.open-api.vn/api/p"
+    useEffect(() => {
+        fetch(url)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setCity(result);
+                },
+            )
+    }, [])
+    const getDisFrAPI = () => {
+        if (getOneCity !== null) {
+            var url1 = `https://provinces.open-api.vn/api/p/${getOneCity}?depth=2`
+            fetch(url1)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        setDistrict(result.districts);
+                    },
+                )
+        }
+    }
+    const getWardFrAPI = () => {
+        if (getOneDis !== null) {
+            var url1 = `https://provinces.open-api.vn/api/d/${getOneDis}?depth=2`
+            fetch(url1)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        setWard(result.wards);
+                    },
+                )
+        }
+    }
     return (
         <div>
             <h1
@@ -75,7 +110,7 @@ export default function EditProfile(props) {
                             <div className={styleLogin.wrapper} >
                                 <div className={styleLogin.search}>
                                     <input
-                                        id='Name'
+                                        id='name'
                                         type='text'
                                         defaultValue={props.dataFromParent[0].name}
                                         placeholder=''
@@ -88,15 +123,14 @@ export default function EditProfile(props) {
                                 Gender:
                             </label>
                             <div className={styleLogin.wrapper}>
-                                <div className={styleLogin.search}>
-                                    <input
-                                        id='Name'
-                                        type='text'
-                                        defaultValue={props.dataFromParent[0].gender ? "Boy" : "Girl"}
-                                        placeholder=''
-                                        onChange={e => setGender(e.target.value)}
-                                    ></input>
-                                </div>
+                                <select id="gender" className={styleLogin.search} required onChange={() => {
+                                    var value = document.getElementById("gender").value;
+                                    setGender(value)
+                                }}>
+                                    <option value="">{props.dataFromParent[0].gender ? "Boy" : "Girl"}</option>
+                                    <option value={true}>Boy</option>
+                                    <option value={false}>Girl</option>
+                                </select>
                             </div>
                             <label
                                 style={{ padding: "10px 0 0px 0" }}>
@@ -105,7 +139,7 @@ export default function EditProfile(props) {
                             <div className={styleLogin.wrapper}>
                                 <div className={styleLogin.search}>
                                     <input
-                                        id='Name'
+                                        id='age'
                                         type='text'
                                         defaultValue={props.dataFromParent[0].age}
                                         placeholder=''
@@ -120,7 +154,7 @@ export default function EditProfile(props) {
                             <div className={styleLogin.wrapper}>
                                 <div className={styleLogin.search}>
                                     <input
-                                        id='Name'
+                                        id='email'
                                         type='text'
                                         defaultValue={props.dataFromParent[0].email}
                                         placeholder=''
@@ -135,7 +169,7 @@ export default function EditProfile(props) {
                             <div className={styleLogin.wrapper}>
                                 <div className={styleLogin.search}>
                                     <input
-                                        id='Name'
+                                        id='phone'
                                         type='text'
                                         defaultValue={props.dataFromParent[0].phone}
                                         placeholder=''
@@ -153,7 +187,7 @@ export default function EditProfile(props) {
                         <div className={styleLogin.wrapper}>
                             <div className={styleLogin.search}>
                                 <input
-                                    id='Name'
+                                    id='identification'
                                     type='text'
                                     defaultValue={props.dataFromParent[0].identification}
                                     placeholder=''
@@ -168,7 +202,7 @@ export default function EditProfile(props) {
                         <div className={styleLogin.wrapper}>
                             <div className={styleLogin.search}>
                                 <input
-                                    id='Name'
+                                    id='address'
                                     type='text'
                                     defaultValue={props.dataFromParent[0].address}
                                     placeholder=''
@@ -178,48 +212,70 @@ export default function EditProfile(props) {
                         </div>
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
-                            Ward:
+                            City:
                         </label>
                         <div className={styleLogin.wrapper}>
-                            <div className={styleLogin.search}>
-                                <input
-                                    id='Name'
-                                    type='text'
-                                    defaultValue={props.dataFromParent[0].ward}
-                                    placeholder=''
-                                    onChange={e => setWard(e.target.value)}
-                                ></input>
-                            </div>
+                            <select id="setCity" className={styleLogin.search} required onChange={() => {
+                                var value = document.getElementById("setCity").value;
+                                if (value !== "") {
+                                    setOneCity(value)
+                                    setExactCity(document.getElementById(`${value}`).label)
+                                }
+                                setOneDis(null)
+                                setDistrict([{ name: 'Select Districts', code: "" }])
+                                setWard([{ name: 'Select Ward', code: "" }])
+                                setExactDis(null)
+                                setExactWard(null)
+                            }}>
+                                <option value="" disabled selected hidden>{props.dataFromParent[0].city}</option>
+                                {getCity ? getCity.map((option) => (
+                                    <option id={option.code} value={option.code} label={option.name}></option>
+                                )) : null}
+                            </select>
+                            {console.log("getExactCity: ", getExactCity)}
                         </div>
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
                             District:
                         </label>
                         <div className={styleLogin.wrapper}>
-                            <div className={styleLogin.search}>
-                                <input
-                                    id='Name'
-                                    type='text'
-                                    defaultValue={props.dataFromParent[0].district}
-                                    placeholder=''
-                                    onChange={e => setDistrict(e.target.value)}
-                                ></input>
-                            </div>
+                            <select id="setDistrict" className={styleLogin.search} required onClick={() => {
+                                getDisFrAPI()
+                            }} onChange={() => {
+                                var value = document.getElementById("setDistrict").value;
+                                if (value !== "") {
+                                    setOneDis(value)
+                                    setExactDis(document.getElementById(`${value}`).label)
+                                }
+                                setWard([{ name: 'Select Ward', code: "" }])
+                                setExactWard(null)
+                            }}>
+                                <option value="" disabled selected hidden>{props.dataFromParent[0].district}</option>
+                                {getDistrict ? getDistrict.map((option) => (
+                                    <option id={option.code} value={option.code} label={option.name}></option>
+                                )) : null}
+                            </select>
+                            {console.log("getExactDis: ", getExactDis)}
                         </div>
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
-                            City:
+                            Ward:
                         </label>
                         <div className={styleLogin.wrapper}>
-                            <div className={styleLogin.search}>
-                                <input
-                                    id='Name'
-                                    type='text'
-                                    defaultValue={props.dataFromParent[0].city}
-                                    placeholder=''
-                                    onChange={e => setCity(e.target.value)}
-                                ></input>
-                            </div>
+                            <select id="setWard" className={styleLogin.search} required onClick={() => {
+                                getWardFrAPI()
+                            }} onChange={() => {
+                                var value = document.getElementById("setWard").value;
+                                if (value !== "") {
+                                    setExactWard(document.getElementById(`${value}`).label)
+                                }
+                            }}>
+                                <option value="" disabled selected hidden>{props.dataFromParent[0].ward}</option>
+                                {getWard ? getWard.map((option) => (
+                                    <option id={option.code} value={option.code} label={option.name}></option>
+                                )) : null}
+                            </select>
+                            {console.log("getExactWard: ", getExactWard)}
                         </div>
                     </ul>
                 </div>
@@ -273,20 +329,20 @@ export default function EditProfile(props) {
                         } else {
                             newAddress = getAddress
                         }
-                        if (getWard === undefined) {
-                            var newWard = document.getElementById("ward").defaultValue
+                        if (getExactWard === undefined) {
+                            var newWard = document.getElementById("setWard").value.label
                         } else {
-                            newWard = getWard
+                            newWard = getExactWard
                         }
-                        if (getDistrict === undefined) {
-                            var newDistrict = document.getElementById("district").defaultValue
+                        if (getExactDis === undefined) {
+                            var newDistrict = document.getElementById("setDistrict").value.label
                         } else {
-                            newDistrict = getDistrict
+                            newDistrict = getExactDis
                         }
-                        if (getCity === undefined) {
-                            var newCity = document.getElementById("city").defaultValue
+                        if (getExactCity === undefined) {
+                            var newCity = document.getElementById("setCity").value.label
                         } else {
-                            newCity = getCity
+                            newCity = getExactCity
                         }
                         if (
                             newName !== '' &&

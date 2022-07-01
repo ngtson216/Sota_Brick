@@ -187,11 +187,11 @@ function Payments(props) {
                             fontSize: '25px',
                             margin: '1% 1.5% 1.5% 0%',
                         }} />Delivery Address</b> <br />
-                        <span><b>Name: </b> {items ? items.data.name : ''} | <b>Phone Number:</b> {items ? items.data.phone : ''}</span> <br />
-                        <span><b>Address: </b> {items ? items.data.address : ''}</span><br />
-                        <span><b>Ward: </b> {items ? items.data.ward : ''},
-                            <b> District: </b> {items ? items.data.district : ''},
-                            <b> City: </b> {items ? items.data.city : ''}
+                        <span><b>Name: </b> {items ? items?.data?.name : ''} | <b>Phone Number:</b> {items ? items?.data?.phone : ''}</span> <br />
+                        <span><b>Address: </b> {items ? items?.data?.address : ''}</span><br />
+                        <span><b>Ward: </b> {items ? items?.data?.ward : ''},
+                            <b> District: </b> {items ? items?.data?.district : ''},
+                            <b> City: </b> {items ? items?.data?.city : ''}
                         </span><br />
                         <button className={styleShop.btnChangeDelivery}
                             onClick={{}}
@@ -201,6 +201,44 @@ function Payments(props) {
                     </div>
                     <div style={{ width: "80%", margin: "3% 0% 0% 0%" }}>
                         <p style={{ fontWeight: "600" }}>Purchase With </p>
+                        <button style={{
+                            borderRadius: '23px',
+                            background: '#fce123',
+                            color: '#2C2E2F',
+                            display: 'inline-block',
+                            textAlign: 'center',
+                            height: '45px',
+                            position: 'relative',
+                            width: '100%',
+                            boxSizing: 'border-box',
+                            border: 'none',
+                            verticalAlign: 'top',
+                            cursor: 'pointer',
+                            overflow: 'hidden',
+                            fontSize: '15px',
+                            marginBottom: '10px'
+                        }}>
+                            Payment After Delivery
+                        </button>
+                        <button style={{
+                            borderRadius: '23px',
+                            background: '#def543',
+                            color: '#2C2E2F',
+                            display: 'inline-block',
+                            textAlign: 'center',
+                            height: '45px',
+                            position: 'relative',
+                            width: '100%',
+                            boxSizing: 'border-box',
+                            border: 'none',
+                            verticalAlign: 'top',
+                            cursor: 'pointer',
+                            overflow: 'hidden',
+                            fontSize: '15px',
+                            marginBottom: '10px'
+                        }}>
+                            Payment Via Bank Transfer
+                        </button>
                         <PayPalButtons
                             style={{
                                 "layout": "horizontal",

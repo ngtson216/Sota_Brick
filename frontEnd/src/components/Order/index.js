@@ -12,13 +12,17 @@ import Popup from 'reactjs-popup';
 import { BiMessageAltDetail } from "react-icons/bi"
 import { height } from '@mui/system';
 import Status from './status';
+import { StatusFilter } from './components/StatusFilter';
+import { StatusTag } from './components/StatusTag';
 
 const Order = () => {
     const role = sessionStorage.getItem('role')
     const [listOrder, setListOrder] = useState()
     const [listUser, setListUser] = useState()
     const [products, setProducts] = useState();
+    const [listOrderFilter, setListOrderFilter] = useState()
     const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
+    const decoded = jwt_decode(sessionStorage.getItem('token'));
     useEffect(() => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", sessionStorage.getItem('token'));
@@ -58,7 +62,7 @@ const Order = () => {
 
         fetch("http://localhost:8080/api/v1/orders/", requestOptions)
             .then(response => response.json())
-            .then(result => setListOrder(result))
+            .then(result => { setListOrder(result); setListOrderFilter(result.data) })
             .catch(error => console.log('error', error));
     }, [])
     const columnsDetail = [
@@ -111,7 +115,7 @@ const Order = () => {
             align: 'center',
             render: (_, record) => {
                 return <span>{record.price * record.quantity} VNĐ</span>
-            }
+            },
         },
     ]
     const columns = [
@@ -146,7 +150,8 @@ const Order = () => {
             align: 'center',
             render: (_, record) => {
                 return moment(record.createdAt).tz('Asia/Ho_Chi_Minh').format('h:mm a, DD-MM-YYYY');
-            }
+            },
+            sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
         },
         {
             title: 'Shipping To',
@@ -160,6 +165,14 @@ const Order = () => {
             align: 'center',
             render: (value) => {
                 return `${value.totalPrice} VNĐ`
+            },
+            sorter: (a, b) => a.totalPrice - b.totalPrice
+        },
+        {
+            title: 'Status',
+            align: 'center',
+            render: (_, record) => {
+                return <StatusTag status={record.status} />
             }
         },
         {
@@ -185,7 +198,7 @@ const Order = () => {
                                 <div className={styleShop.content}>
                                     <div>
                                         <h1 style={{ fontSize: "18px", padding: "1% 0 1% 1.5%", fontWeight: "600" }}>Order Detail</h1>
-                                        <Status />
+                                        <Status step={record.status} />
                                         <div style={{ margin: "1.5%" }}>
                                             <Table
                                                 columns={columnsDetail}
@@ -232,13 +245,37 @@ const Order = () => {
             }
         }
     ]
+    const handleFilter = key => {
+        const selected = parseInt(key);
+        if (selected === 4) {
+            setListOrderFilter(listOrder?.data)
+        }
+        else {
+            const statusMap = {
+                1: "Paying",
+                2: "Shipping",
+                3: "Done",
+            };
+            const selectedStatus = statusMap[selected];
+
+            const filteredEvents = listOrder?.data.filter(
+                (item) => item.status === selectedStatus
+            );
+            setListOrderFilter(filteredEvents)
+        }
+
+    };
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
-            <h1 style={{ padding: "5% 0% 8% 10%", color: "#fff", fontWeight: "600", }}>Orders</h1>
+            <h1 style={{ padding: "5% 0% 8% 0%", color: "#fff", fontWeight: "600", }}>Orders</h1>
             <div style={{ margin: "1.5%" }}>
+                <StatusFilter filterBy={handleFilter} />
                 <Table
                     columns={columns}
-                    dataSource={listOrder?.data}
+                    dataSource={role === "admin" ? listOrderFilter : listOrderFilter?.filter((item) => {
+                        if (item.createdBy === decoded.id)
+                            return item
+                    })}
                     pagination={{
                         position: ["bottomCenter"]
                     }}

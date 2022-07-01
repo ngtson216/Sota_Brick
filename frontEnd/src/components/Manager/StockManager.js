@@ -8,6 +8,8 @@ import CreateStock from '../Create/CreateStock'
 import { Table } from 'antd'
 import '../../CSS/TableAntd.css'
 import 'antd/dist/antd.css'
+import moment from 'moment-timezone';
+
 function loop(items) {
     const all = [];
     for (var i in items) {
@@ -100,33 +102,35 @@ export default function StockManager() {
             render: (_, record) => {
                 return <span>{record.type ? "Receiving" : "Delivering"}</span>
             },
-            align: 'center'
+            align: 'center',
+            sorter: (a, b) => a.type - b.type,
         },
         {
             title: 'Quantity',
             key: 'quantity',
             dataIndex: 'quantity',
-            align: 'center'
+            align: 'center',
+            sorter: (a, b) => a.quantity - b.quantity,
         },
         {
             title: 'Created At',
             render: (_, record) => {
-                return <span> {record.createdAt.slice(11, 16)}, {record.createdAt.slice(8, 10)}
-                    /{record.createdAt.slice(5, 7)}
-                    /{record.createdAt.slice(0, 4)}</span>
+                return moment(record.createdAt).tz('Asia/Ho_Chi_Minh').format('h:mm a, DD-MM-YYYY');
             },
-            align: 'center'
+            align: 'center',
+            sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
         },
         {
             title: 'Description',
             key: 'description',
             dataIndex: 'description',
-            align: 'center'
+            align: 'center',
+            width: 500
         }
     ]
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
-            <h1 style={{ padding: "5% 0% 10% 10%", color: "white", fontWeight: "600", position: "relative" }}>Product Stock Manager</h1>
+            <h1 style={{ padding: "5% 0% 10% 0%", color: "white", fontWeight: "600", position: "relative" }}>Product Stock Manager</h1>
             <Popup trigger={
                 <button style={{
                     marginLeft: '1.5%',

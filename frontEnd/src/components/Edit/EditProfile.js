@@ -232,7 +232,6 @@ export default function EditProfile(props) {
                                     <option id={option.code} value={option.code} label={option.name}></option>
                                 )) : null}
                             </select>
-                            {console.log("getExactCity: ", getExactCity)}
                         </div>
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
@@ -255,7 +254,6 @@ export default function EditProfile(props) {
                                     <option id={option.code} value={option.code} label={option.name}></option>
                                 )) : null}
                             </select>
-                            {console.log("getExactDis: ", getExactDis)}
                         </div>
                         <label
                             style={{ padding: "10px 0 0px 0" }}>
@@ -275,7 +273,6 @@ export default function EditProfile(props) {
                                     <option id={option.code} value={option.code} label={option.name}></option>
                                 )) : null}
                             </select>
-                            {console.log("getExactWard: ", getExactWard)}
                         </div>
                     </ul>
                 </div>
@@ -329,18 +326,18 @@ export default function EditProfile(props) {
                         } else {
                             newAddress = getAddress
                         }
-                        if (getExactWard === undefined) {
-                            var newWard = document.getElementById("setWard").value.label
+                        if (getExactWard === null) {
+                            var newWard = props.dataFromParent[0].ward
                         } else {
                             newWard = getExactWard
                         }
-                        if (getExactDis === undefined) {
-                            var newDistrict = document.getElementById("setDistrict").value.label
+                        if (getExactDis === null) {
+                            var newDistrict = props.dataFromParent[0].district
                         } else {
                             newDistrict = getExactDis
                         }
-                        if (getExactCity === undefined) {
-                            var newCity = document.getElementById("setCity").value.label
+                        if (getExactCity === null) {
+                            var newCity = props.dataFromParent[0].city
                         } else {
                             newCity = getExactCity
                         }

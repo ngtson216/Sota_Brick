@@ -40,6 +40,7 @@ const createOrder = (name, shippingObj, orderDetailsArr) => {
         "customerName": name,
         "shipping": shippingObj,
         "orderDetails": orderDetailsArr,
+        "status": "Paying"
     });
 
     var requestOptions = {

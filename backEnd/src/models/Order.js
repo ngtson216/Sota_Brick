@@ -16,6 +16,10 @@ const OrderSchema = new mongoose.Schema({
   shipping: {
     type: Object
   },
+  status: {
+    type: String,
+    enum: ['Paying', 'Shipping', 'Done']
+  },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

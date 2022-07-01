@@ -2,7 +2,6 @@ const { omit } = require('lodash')
 const mongoose = require('mongoose')
 const { Promise } = require('bluebird')
 const Order = require('../models/Order')
-const OrderDetail = require('../models/OrderDetail')
 const ObjectId = mongoose.Types.ObjectId
 const Customer = require('../models/Customer')
 const UserError = require('../utils/userError')
@@ -202,8 +201,8 @@ const updateOrder = async (_id, body, reqUser) => {
     if (!order || !orderDetails.length)
       return new UserError(404, "Order Not Found")
 
-    if (!body.orderDetails.length)
-      return new UserError(401, "orderDetails cannot be blank")
+    // if (!body.orderDetails.length)
+    //   return new UserError(401, "orderDetails cannot be blank")
 
     // start transaction
     const session = await mongoose.startSession()
@@ -213,47 +212,36 @@ const updateOrder = async (_id, body, reqUser) => {
       // update order
       order.set({
         ...omit(body, ['orderDetails']),
-        price: items
-          .map(i => i.price)
-          .reduce((a, b) => a + b),
-        tax: items
-          .map(i => i.tax)
-          .reduce((a, b) => a + b),
-        discount: items
-          .map(i => i.discount)
-          .reduce((a, b) => a + b),
-        totalPrice: items
-          .map(i => i.price + i.tax - i.discount)
-          .reduce((a, b) => a + b),
+        status: body.status,
         updatedBy: reqUser._id,
         updatedAt: Date.now()
       })
       await order.save({ session })
 
-      // remove old orderDetails
-      await OrderDetails
-        .deleteMany({ _id: { $in: orderDetails.map(i => i._id) } })
-        .session(session)
+      // // remove old orderDetails
+      // await OrderDetails
+      //   .deleteMany({ _id: { $in: orderDetails.map(i => i._id) } })
+      //   .session(session)
 
-      // re-create orderDetails
-      const newDetails = await OrderDetails.create(
-        [...items.map(item => {
-          return {
-            ...item,
-            orderId: order._id,
-            totalPrice: item.price + item.tax - item.discount,
-            createdBy: order.createdBy,
-            createdAt: order.createdAt,
-            updatedBy: reqUser._id,
-            updatedAt: Date.now()
-          }
-        })],
-        { session }
-      )
+      // // re-create orderDetails
+      // const newDetails = await OrderDetails.create(
+      //   [...items.map(item => {
+      //     return {
+      //       ...item,
+      //       orderId: order._id,
+      //       totalPrice: item.price + item.tax - item.discount,
+      //       createdBy: order.createdBy,
+      //       createdAt: order.createdAt,
+      //       updatedBy: reqUser._id,
+      //       updatedAt: Date.now()
+      //     }
+      //   })],
+      //   { session }
+      // )
 
       data = {
         ...order._doc,
-        orderDetails: newDetails
+        // orderDetails: newDetails
       }
     })
 

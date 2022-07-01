@@ -133,8 +133,8 @@ const updateUser = async (_id, body, reqUser) => {
 
     if (!user || !customer) return new UserError(404, "User Not Found");
 
-    if (user.username !== body.username || user.email !== body.email)
-      return new UserError(401, "Cannot update username or email");
+    // if (user.username !== body.username || user.email !== body.email)
+    //   return new UserError(401, "Cannot update username or email");
 
     // start transaction
     const session = await mongoose.startSession();
@@ -207,7 +207,7 @@ const deleteUser = async (_id) => {
 module.exports = {
   getUsers,
   getUser,
-  createUser, 
+  createUser,
   updateUser,
   setActive,
   deleteUser,

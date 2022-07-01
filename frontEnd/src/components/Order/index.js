@@ -10,7 +10,11 @@ import moment from 'moment-timezone';
 import styleShop from '../../CSS/Shop.module.css'
 import Popup from 'reactjs-popup';
 import { BiMessageAltDetail } from "react-icons/bi"
+import { height } from '@mui/system';
+import Status from './status';
+
 const Order = () => {
+    const role = sessionStorage.getItem('role')
     const [listOrder, setListOrder] = useState()
     const [listUser, setListUser] = useState()
     const [products, setProducts] = useState();
@@ -180,7 +184,8 @@ const Order = () => {
                                 </button>
                                 <div className={styleShop.content}>
                                     <div>
-                                        <h1 style={{ textAlign: "center", fontSize: "32px", paddingBottom: "1%" }}>Order Detail</h1>
+                                        <h1 style={{ fontSize: "18px", padding: "1% 0 1% 1.5%", fontWeight: "600" }}>Order Detail</h1>
+                                        <Status />
                                         <div style={{ margin: "1.5%" }}>
                                             <Table
                                                 columns={columnsDetail}
@@ -188,14 +193,14 @@ const Order = () => {
                                                 pagination={false}
                                                 scroll={{ x: 700, y: 300 }}
                                             />
-                                            <div style={{ padding: "2% 0% 0% 2%", fontSize: '20px' }}>
+                                            <div style={{ padding: "2% 0% 0% 2%", fontSize: '15px' }}>
                                                 <b>Total Price: </b>{record.totalPrice} VNĐ
                                             </div>
                                             <div style={{
                                                 display: 'grid',
-                                                gridTemplateColumns: 'auto auto'
+                                                gridTemplateColumns: '75% 25%'
                                             }}>
-                                                <div style={{ padding: "2% 0% 0% 5%" }}>
+                                                <div style={{ padding: "1% 0% 0% 5%" }}>
                                                     <b> <GoLocation style={{
                                                         color: 'red',
                                                         fontSize: '25px',
@@ -205,7 +210,16 @@ const Order = () => {
                                                     <span><b>Phone Number: </b> </span> <br />
                                                     <span><b>Address: </b>{record.shipping.address_line_1}, {record.shipping.admin_area_2}</span><br />
                                                 </div>
+                                                <div>
+                                                    {role === "admin" ? (<button
+                                                        className={styleShop.btnUpdateStatus}
+                                                        onClick={{
+
+                                                        }}
+                                                    >Update status</button>) : null}
+                                                </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -219,14 +233,17 @@ const Order = () => {
         }
     ]
     return (
-        <div>
-            <h1 style={{ textAlign: "center", fontSize: "32px", paddingBottom: "1%" }}>Orders</h1>
+        <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
+            <h1 style={{ padding: "5% 0% 8% 10%", color: "#fff", fontWeight: "600", }}>Orders</h1>
             <div style={{ margin: "1.5%" }}>
                 <Table
                     columns={columns}
                     dataSource={listOrder?.data}
-                    pagination={false}
-                    scroll={{ x: 700, y: 300 }}
+                    pagination={{
+                        position: ["bottomCenter"]
+                    }}
+                    bordered={true}
+                    scroll={{ x: 1300 }}
                 />
             </div>
         </div>

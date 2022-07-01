@@ -32,6 +32,9 @@ export default function Ava() {
     const StockManager = () => {
         window.location.href = '/StockManager'
     }
+    const Order = () => {
+        window.location.href = '/Order'
+    }
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -97,15 +100,26 @@ export default function Ava() {
                     <Avatar /> <b>Profile</b>
                 </MenuItem>
                 {sessionStorage.getItem("role") === "customer" ?
-                    <MenuItem onClick={Profile} style={{
-                        paddingRight: '60px',
-                        paddingLeft: '30px',
-                        paddingBottom: '10px',
-                        width: '200px',
-                        marginBottom: '200px',
-                    }}>
-                        Profile
-                    </MenuItem> : null}
+                    <>
+                        <MenuItem onClick={Profile} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                            width: '200px',
+                        }}>
+                            Profile
+                        </MenuItem>
+                        <MenuItem onClick={Order} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                            marginBottom: '200px',
+                        }}>
+                            Orders
+                        </MenuItem>
+                    </>
+                    : null}
+
 
                 {sessionStorage.getItem("role") === "admin" ?
                     <>
@@ -124,12 +138,19 @@ export default function Ava() {
                             Account Manager
                         </MenuItem>
                         <MenuItem onClick={StockManager} style={{
-                            marginBottom: '200px',
                             paddingRight: '60px',
                             paddingLeft: '30px',
                             paddingBottom: '10px'
                         }}>
                             Stock Manager
+                        </MenuItem>
+                        <MenuItem onClick={Order} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                            marginBottom: '200px',
+                        }}>
+                            Orders Manager
                         </MenuItem>
                     </>
                     : null}

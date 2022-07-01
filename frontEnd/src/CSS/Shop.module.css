@@ -148,6 +148,19 @@ button {
     background-color: #b80707;
 }
 
+.btnUpdateStatus {
+    margin-top: 1.5em;
+    height: 3.5em;
+    width: 15em;
+    background-color: #df494a;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.btnUpdateStatus:hover {
+    background-color: #b80707;
+}
+
 .divClick:hover {
     color: blue;
     text-decoration: underline;

@@ -91,6 +91,7 @@ function App() {
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/Profile" element={<Profile />} />
               <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
+              <Route path="/Order" element={<Order />} />
             </Routes>
             <Footer />
           </div>

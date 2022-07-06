@@ -18,10 +18,16 @@ function onFormSubmit() {
 export default function Status(props) {
     let step
     switch (props.step) {
+        case 'Cancel':
+            step = 0;
+            break;
         case 'Done':
-            step = 2;
+            step = 3;
             break;
         case 'Shipping':
+            step = 2;
+            break;
+        case 'Preparing':
             step = 1;
             break;
         case 'Paying':
@@ -32,25 +38,42 @@ export default function Status(props) {
     }
     return (
         <div>
-            <StepProgressBar
-                startingStep={step}
-                onSubmit={onFormSubmit}
-                steps={[
-                    {
-                        label: 'Paying',
-                        name: 'paying',
-                    },
-                    {
-                        label: 'Shipping',
-                        name: 'shipping',
-                    },
-                    {
-                        label: 'Done ',
-                        name: 'done ',
-                    },
-                ]}
-                labelClass={'labelClass'}
-            />;
+            {props.step !== 'Cancel' ? (
+                <StepProgressBar
+                    startingStep={step}
+                    onSubmit={onFormSubmit}
+                    steps={[
+                        {
+                            label: 'Paying',
+                            name: 'paying',
+                        },
+                        {
+                            label: 'Preparing',
+                            name: 'preparing',
+                        },
+                        {
+                            label: 'Shipping',
+                            name: 'shipping',
+                        },
+                        {
+                            label: 'Done ',
+                            name: 'done ',
+                        },
+                    ]}
+                    labelClass={'labelClass'}
+                />) : (
+                <StepProgressBar
+                    startingStep={step}
+                    onSubmit={onFormSubmit}
+                    steps={[
+                        {
+                            label: 'Cancel',
+                            name: 'cancel',
+                        },
+                    ]}
+                    labelClass={'labelClass'}
+                />
+            )}
         </div>
     )
 }

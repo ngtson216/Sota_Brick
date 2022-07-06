@@ -18,7 +18,7 @@ const OrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Paying', 'Shipping', 'Done']
+    enum: ['Cancel', 'Paying', 'Preparing', 'Shipping', 'Done']
   },
   createdBy: {
     type: mongoose.Schema.ObjectId,

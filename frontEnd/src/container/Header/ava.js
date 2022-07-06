@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
+import { Avatar } from 'antd';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
@@ -8,8 +8,25 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { BsPerson } from 'react-icons/bs';
+import jwtDecode from 'jwt-decode';
+
 export default function Ava() {
+    const decoded = jwtDecode(sessionStorage.getItem('token'));
+    const url = "http://localhost:8080/api/v1/users/" + decoded.id
+    const [items, setItems] = useState()
+    useEffect(() => {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", sessionStorage.getItem('token'));
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(result => setItems(result))
+            .catch(error => console.log('error', error));
+    }, [])
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -47,10 +64,17 @@ export default function Ava() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar
-                            alt="A"
-                            sx={{ width: 30, height: 30 }}
-                        />
+                        <div>
+                            <Avatar
+                                src='https://joeschmoe.io/api/v1/random'
+                                alt="Avatar"
+                                style={{
+                                    borderStyle: 'solid',
+                                    borderWidth: '1px',
+                                    borderColor: 'black'
+                                }}
+                            />
+                        </div>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -97,7 +121,14 @@ export default function Ava() {
                     paddingBottom: '10px',
 
                 }}>
-                    <Avatar /> <b>Profile</b>
+                    <Avatar
+                        src='https://joeschmoe.io/api/v1/random'
+                        alt="Avatar"
+                        style={{
+                            marginRight: '10px',
+                            backgroundColor: 'white'
+                        }}
+                    /> <b>{items?.data?.name}</b>
                 </MenuItem>
                 {sessionStorage.getItem("role") === "customer" ?
                     <>

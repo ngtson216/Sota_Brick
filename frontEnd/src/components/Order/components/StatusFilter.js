@@ -14,10 +14,12 @@ export const StatusFilter = ({ filterBy, ...props }) => {
     const menu = (
         <Menu onClick={onClick}>
             <Menu.Item key="1">Status: Paying</Menu.Item>
-            <Menu.Item key="2">Status: Shipping</Menu.Item>
-            <Menu.Item key="3">Status: Done</Menu.Item>
+            <Menu.Item key="2">Status: Preparing</Menu.Item>
+            <Menu.Item key="3">Status: Shipping</Menu.Item>
+            <Menu.Item key="4">Status: Done</Menu.Item>
+            <Menu.Item key="5">Status: Cancel</Menu.Item>
             <Menu.Divider />
-            <Menu.Item key="4">Clear Filter</Menu.Item>
+            <Menu.Item key="6">Clear Filter</Menu.Item>
         </Menu>
     );
 

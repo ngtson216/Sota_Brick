@@ -31,7 +31,7 @@ const decreaseStock = (id, quantity, description) => {
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 }
-const createOrder = (name, shippingObj, orderDetailsArr) => {
+const createOrder = (name, shippingObj, orderDetailsArr, stt) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", sessionStorage.getItem('token'));
     myHeaders.append("Content-Type", "application/json");
@@ -40,7 +40,7 @@ const createOrder = (name, shippingObj, orderDetailsArr) => {
         "customerName": name,
         "shipping": shippingObj,
         "orderDetails": orderDetailsArr,
-        "status": "Paying"
+        "status": stt
     });
 
     var requestOptions = {
@@ -107,7 +107,7 @@ function Payments(props) {
                 "productId": item._id
             })
         })
-        createOrder(order.customerName, order.shippingAddress, orderArr)
+        createOrder(order.customerName, order.shippingAddress, orderArr, 'Preparing')
         // Call API stock check out
         let desc = `Order By ${order.customerName} at ${order.create_time.slice(0, 10)}`
         order.items.map((item, key) => {

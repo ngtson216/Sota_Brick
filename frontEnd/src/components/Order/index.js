@@ -247,52 +247,57 @@ const Order = () => {
                                                     <span><b>Address: </b>{record.shipping.address_line_1}, {record.shipping.admin_area_2}</span><br />
                                                 </div>
                                                 <div>
-                                                    <Popup
-                                                        onClose={() => {
-                                                            setStatus(undefined)
-                                                        }}
-                                                        trigger={
-                                                            <div className={styleShop.divClick}>
-                                                                <button className={styleShop.btnUpdateStatus}>Update status</button>
-                                                            </div>
-                                                        }{...{ overlayStyle }} modal nested>
-                                                        {(close) => (
-                                                            <div className={styleShop.modalNoti}>
-                                                                <button className={styleShop.close} onClick={close}>
-                                                                    &times;
-                                                                </button>
-                                                                <div className={styleShop.content}>
-                                                                    <h5 className={styleShop.h5tag}>Change Order Status</h5>
-                                                                    <div className={styleShop.selectDiv}>
-                                                                        <Typography>Status:</Typography>
-                                                                        <Select
-                                                                            size='large'
-                                                                            defaultValue={record.status}
-                                                                            placeholder="Please select"
-                                                                            style={{ width: '100%' }}
-                                                                            onChange={(e) => {
-                                                                                setStatus(e)
+                                                    {(record.status !== 'Cancel' && record.status !== 'Done') ? (
+                                                        <Popup
+                                                            onClose={() => {
+                                                                setStatus(undefined)
+                                                            }}
+                                                            trigger={
+                                                                <div className={styleShop.divClick}>
+                                                                    <button className={styleShop.btnUpdateStatus}>Update status</button>
+                                                                </div>
+                                                            }{...{ overlayStyle }} modal nested>
+                                                            {(close) => (
+                                                                <div className={styleShop.modalNoti}>
+                                                                    <button className={styleShop.close} onClick={close}>
+                                                                        &times;
+                                                                    </button>
+                                                                    <div className={styleShop.content}>
+                                                                        <h5 className={styleShop.h5tag}>Change Order Status</h5>
+                                                                        <div className={styleShop.selectDiv}>
+                                                                            <Typography>Status:</Typography>
+                                                                            <Select
+                                                                                size='large'
+                                                                                defaultValue={record.status}
+                                                                                placeholder="Please select"
+                                                                                style={{ width: '100%' }}
+                                                                                onChange={(e) => {
+                                                                                    setStatus(e)
+                                                                                }}
+                                                                            >
+                                                                                <Option value="Cancel">Cancel</Option>
+                                                                                <Option value="Paying">Paying</Option>
+                                                                                <Option value="Preparing">Preparing</Option>
+                                                                                <Option value="Shipping">Shipping</Option>
+                                                                                <Option value="Done">Done</Option>
+                                                                            </Select>
+                                                                        </div>
+                                                                        <Button
+                                                                            type='primary'
+                                                                            onClick={() => {
+                                                                                if (record.status === status || !status) alert(`Can not update duplicate status`)
+                                                                                else if (status === 'Cancel' && record.status !== 'Paying') alert(`Can not cancel order`)
+                                                                                else if (record.status === 'Preparing' && status === 'Paying') alert(`Update order status failed`)
+                                                                                else if (record.status === 'Shipping' && (status === 'Paying' || status === 'Preparing')) alert(`Update order status failed`)
+                                                                                else UpdateStatus(record._id, status)
                                                                             }}
                                                                         >
-                                                                            <Option value="Cancel">Cancel</Option>
-                                                                            <Option value="Paying">Paying</Option>
-                                                                            <Option value="Preparing">Preparing</Option>
-                                                                            <Option value="Shipping">Shipping</Option>
-                                                                            <Option value="Done">Done</Option>
-                                                                        </Select>
+                                                                            Submit
+                                                                        </Button>
                                                                     </div>
-                                                                    <Button
-                                                                        type='primary'
-                                                                        onClick={() => {
-                                                                            UpdateStatus(record._id, status)
-                                                                        }}
-                                                                    >
-                                                                        Submit
-                                                                    </Button>
                                                                 </div>
-                                                            </div>
-                                                        )}
-                                                    </Popup>
+                                                            )}
+                                                        </Popup>) : null}
                                                 </div>
                                             </div>
 

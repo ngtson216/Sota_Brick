@@ -7,6 +7,8 @@ import { Table } from 'antd'
 import '../../CSS/TableAntd.css'
 import 'antd/dist/antd.css'
 import styleShop from '../../CSS/Shop.module.css'
+import stylePayment from '../../CSS/Payment.module.css'
+
 const decreaseStock = (id, quantity, description) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", sessionStorage.getItem('token'));
@@ -94,7 +96,47 @@ function Payments(props) {
             .then(result => setItems(result))
             .catch(error => console.log('error', error));
     }, [])
-    const handleApprove = (order) => {
+    const handleApproveAfterDeli = (order) => {
+        let orderArr = [];
+        order.map((item) => {
+            orderArr.push({
+                "price": item.price,
+                "quantity": item.quantity,
+                "tax": item.tax,
+                "discount": item.discount,
+                "productId": item._id
+            })
+        })
+        let shippingAddress = {
+            address_line_1: items.data.address,
+            admin_area_2: `${items.data.ward}, ${items.data.district}, ${items.data.city}`,
+            postal_code: '10000',
+            country_code: 'VN',
+        }
+        let name = items.data.name
+        createOrder(name, shippingAddress, orderArr, 'Paying')
+    }
+    const handleApproveBanking = (order) => {
+        let orderArr = [];
+        order.map((item) => {
+            orderArr.push({
+                "price": item.price,
+                "quantity": item.quantity,
+                "tax": item.tax,
+                "discount": item.discount,
+                "productId": item._id
+            })
+        })
+        let shippingAddress = {
+            address_line_1: items.data.address,
+            admin_area_2: `${items.data.ward}, ${items.data.district}, ${items.data.city}`,
+            postal_code: '10000',
+            country_code: 'VN',
+        }
+        let name = items.data.name
+        createOrder(name, shippingAddress, orderArr, 'Paying')
+    }
+    const handleApprovePayPal = (order) => {
         setPaidFor(true);
         //Call API POST to order DB
         let orderArr = [];
@@ -201,41 +243,13 @@ function Payments(props) {
                     </div>
                     <div style={{ width: "80%", margin: "3% 0% 0% 0%" }}>
                         <p style={{ fontWeight: "600" }}>Purchase With </p>
-                        <button style={{
-                            borderRadius: '23px',
-                            background: '#fce123',
-                            color: '#2C2E2F',
-                            display: 'inline-block',
-                            textAlign: 'center',
-                            height: '45px',
-                            position: 'relative',
-                            width: '100%',
-                            boxSizing: 'border-box',
-                            border: 'none',
-                            verticalAlign: 'top',
-                            cursor: 'pointer',
-                            overflow: 'hidden',
-                            fontSize: '15px',
-                            marginBottom: '10px'
+                        <button className={stylePayment.buttonPayAfter} onClick={() => {
+                            handleApproveAfterDeli(props.data)
                         }}>
                             Payment After Delivery
                         </button>
-                        <button style={{
-                            borderRadius: '23px',
-                            background: '#def543',
-                            color: '#2C2E2F',
-                            display: 'inline-block',
-                            textAlign: 'center',
-                            height: '45px',
-                            position: 'relative',
-                            width: '100%',
-                            boxSizing: 'border-box',
-                            border: 'none',
-                            verticalAlign: 'top',
-                            cursor: 'pointer',
-                            overflow: 'hidden',
-                            fontSize: '15px',
-                            marginBottom: '10px'
+                        <button className={stylePayment.buttonPayBanking} onClick={() => {
+                            handleApproveBanking(props.data)
                         }}>
                             Payment Via Bank Transfer
                         </button>
@@ -303,7 +317,7 @@ function Payments(props) {
                                     shippingAddress: order.purchase_units[0].shipping.address,
                                     items: props.data
                                 }
-                                handleApprove(orderObj);
+                                handleApprovePayPal(orderObj);
                             }}
                             onCancel={() => {
                                 console.log("cancel")

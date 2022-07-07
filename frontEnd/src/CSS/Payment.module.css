@@ -1,0 +1,35 @@
+.buttonPayAfter {
+    border-radius: 23px;
+    background: #fce123;
+    color: #2C2E2F;
+    display: inline-block;
+    text-align: center;
+    height: 45px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    vertical-align: top;
+    cursor: pointer;
+    overflow: hidden;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.buttonPayBanking {
+    border-radius: 23px;
+    background: #def543;
+    color: #2C2E2F;
+    display: inline-block;
+    text-align: center;
+    height: 45px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    vertical-align: top;
+    cursor: pointer;
+    overflow: hidden;
+    font-size: 15px;
+    margin-bottom: 10px;
+}

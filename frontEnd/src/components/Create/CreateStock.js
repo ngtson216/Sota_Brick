@@ -29,7 +29,7 @@ function Receiving(note, quantity, idProducts) {
         redirect: 'follow'
     };
     fetch(urlStock, requestOptions)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => { console.log(result); alert('Create Receiving succesfull'); window.location.reload() })
         .catch(error => console.log('error', error));
 }

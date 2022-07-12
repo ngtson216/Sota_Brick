@@ -6,20 +6,18 @@ import "antd/lib/dropdown/style/css";
 import "antd/lib/icon/style/css";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md"
 
-export const StatusFilter = ({ filterBy, ...props }) => {
+export const TypeFilter = ({ filterBy, ...props }) => {
     const onClick = ({ key }) => {
         filterBy(key);
     };
 
     const menu = (
         <Menu onClick={onClick}>
-            <Menu.Item key="1">Status: Paying</Menu.Item>
-            <Menu.Item key="2">Status: Preparing</Menu.Item>
-            <Menu.Item key="3">Status: Shipping</Menu.Item>
-            <Menu.Item key="4">Status: Done</Menu.Item>
-            <Menu.Item key="5">Status: Cancel</Menu.Item>
+            <Menu.Item key="1">Type: After Delivery</Menu.Item>
+            <Menu.Item key="2">Type: Bank Tranfer</Menu.Item>
+            <Menu.Item key="3">Type: PayPal</Menu.Item>
             <Menu.Divider />
-            <Menu.Item key="6">Clear Filter</Menu.Item>
+            <Menu.Item key="4">Clear Filter</Menu.Item>
         </Menu>
     );
 
@@ -30,7 +28,7 @@ export const StatusFilter = ({ filterBy, ...props }) => {
                     color: 'blue',
                     fontSize: '20px'
                 }}>
-                    Filter Status <MdOutlineArrowDropDownCircle style={{
+                    Filter Type <MdOutlineArrowDropDownCircle style={{
                         fontSize: '20px',
                         paddingBottom: '2px',
                         marginRight: '15px'

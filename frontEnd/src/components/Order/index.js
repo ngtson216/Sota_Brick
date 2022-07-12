@@ -15,6 +15,8 @@ import { height } from '@mui/system';
 import Status from './status';
 import { StatusFilter } from './components/StatusFilter';
 import { StatusTag } from './components/StatusTag';
+import { TypeTag } from './components/TypeTag';
+import { TypeFilter } from './components/TypeFilter';
 const { Option } = Select
 
 const UpdateStatus = (id, stt) => {
@@ -199,6 +201,13 @@ const Order = () => {
             }
         },
         {
+            title: 'Type',
+            align: 'center',
+            render: (_, record) => {
+                return <TypeTag type={record.type} />
+            }
+        },
+        {
             title: '',
             align: 'center',
             render: (_, record) => {
@@ -333,13 +342,36 @@ const Order = () => {
             );
             setListOrderFilter(filteredEvents)
         }
+    };
+    const handleFilterType = key => {
+        const selected = parseInt(key);
+        if (selected === 4) {
+            setListOrderFilter(listOrder?.data)
+        }
+        else {
+            const typeMap = {
+                1: "AfterDeli",
+                2: "BankTranfer",
+                3: "PayPal",
+            };
+            const selectedType = typeMap[selected];
 
+            const filteredEvents = listOrder?.data.filter(
+                (item) => item.type === selectedType
+            );
+            setListOrderFilter(filteredEvents)
+        }
     };
     return (
         <div style={{ paddingBottom: "10%", paddingLeft: "5%", backgroundImage: `url(${bgProfile})`, backgroundRepeat: "no-repeat", backgroundSize: "100%", width: "100%" }}>
             <h1 style={{ padding: "5% 0% 8% 0%", color: "#fff", fontWeight: "600", }}>Orders</h1>
             <div style={{ margin: "1.5%" }}>
-                <StatusFilter filterBy={handleFilter} />
+                <div style={{
+                    display: 'flex'
+                }}>
+                    <StatusFilter filterBy={handleFilter} />
+                    <TypeFilter filterBy={handleFilterType} />
+                </div>
                 <Table
                     columns={columns}
                     dataSource={role === "admin" ? listOrderFilter : listOrderFilter?.filter((item) => {

@@ -33,7 +33,7 @@ const decreaseStock = (id, quantity, description) => {
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 }
-const createOrder = (name, shippingObj, orderDetailsArr, stt) => {
+const createOrder = (name, shippingObj, orderDetailsArr, stt, type) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", sessionStorage.getItem('token'));
     myHeaders.append("Content-Type", "application/json");
@@ -42,7 +42,8 @@ const createOrder = (name, shippingObj, orderDetailsArr, stt) => {
         "customerName": name,
         "shipping": shippingObj,
         "orderDetails": orderDetailsArr,
-        "status": stt
+        "status": stt,
+        "type": type
     });
 
     var requestOptions = {
@@ -54,7 +55,10 @@ const createOrder = (name, shippingObj, orderDetailsArr, stt) => {
 
     fetch("http://localhost:8080/api/v1/orders/", requestOptions)
         .then(response => response.json())
-        .then(result => console.log(result))
+        .then(result => {
+            localStorage.removeItem('persist:root');
+            window.location.reload()
+        })
         .catch(error => console.log('error', error));
 }
 
@@ -114,7 +118,11 @@ function Payments(props) {
             country_code: 'VN',
         }
         let name = items.data.name
-        createOrder(name, shippingAddress, orderArr, 'Paying')
+        createOrder(name, shippingAddress, orderArr, 'Preparing', 'AfterDeli')
+        let desc = `Order By ${name}`
+        order.map((item, key) => {
+            decreaseStock(item._id, item.quantity, desc)
+        })
     }
     const handleApproveBanking = (order) => {
         let orderArr = [];
@@ -134,7 +142,11 @@ function Payments(props) {
             country_code: 'VN',
         }
         let name = items.data.name
-        createOrder(name, shippingAddress, orderArr, 'Paying')
+        createOrder(name, shippingAddress, orderArr, 'Paying', 'BankTranfer')
+        let desc = `Order By ${name}`
+        order.map((item, key) => {
+            decreaseStock(item._id, item.quantity, desc)
+        })
     }
     const handleApprovePayPal = (order) => {
         setPaidFor(true);
@@ -149,7 +161,7 @@ function Payments(props) {
                 "productId": item._id
             })
         })
-        createOrder(order.customerName, order.shippingAddress, orderArr, 'Preparing')
+        createOrder(order.customerName, order.shippingAddress, orderArr, 'Preparing', 'PayPal')
         // Call API stock check out
         let desc = `Order By ${order.customerName} at ${order.create_time.slice(0, 10)}`
         order.items.map((item, key) => {
@@ -159,8 +171,6 @@ function Payments(props) {
     useEffect(() => {
         if (paidFor) {
             alert("Thank you for your purchase!");
-            localStorage.removeItem('persist:root');
-            window.location.reload()
         }
         if (error) {
             alert(error);

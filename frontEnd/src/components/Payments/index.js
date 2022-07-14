@@ -3,7 +3,7 @@ import bgProfile from '../../img/bgProfile.jpg'
 import { GoLocation } from "react-icons/go"
 import { PayPalButtons } from '@paypal/react-paypal-js'
 import jwt_decode from "jwt-decode";
-import { Table } from 'antd'
+import { Table, notification } from 'antd'
 import '../../CSS/TableAntd.css'
 import 'antd/dist/antd.css'
 import styleShop from '../../CSS/Shop.module.css'
@@ -56,8 +56,10 @@ const createOrder = (name, shippingObj, orderDetailsArr, stt, type) => {
     fetch("http://localhost:8080/api/v1/orders/", requestOptions)
         .then(response => response.json())
         .then(result => {
+            alert("Thank you for your purchase!");
             localStorage.removeItem('persist:root');
-            window.location.reload()
+            let url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
+            window.location.assign(url)
         })
         .catch(error => console.log('error', error));
 }
@@ -142,8 +144,36 @@ function Payments(props) {
             country_code: 'VN',
         }
         let name = items.data.name
+        notification.open({
+            message: <h5 style={{ color: 'blue' }}><b>Transfer Information</b></h5>,
+            description: <div>
+                <b>Hello, thank you Son Son for texting <em style={{ color: 'green' }}>sotabrick.vn</em>, we will try to respond as quickly as possible 😍🥰</b>
+                <span style={{ fontSize: '18px', color: 'blueviolet' }}>Here's our information:</span><br />
+                <span>🔥 <b>Contact number</b>: <b style={{ color: 'red' }}>0913088216</b></span><br />
+                <span>🔥 <b>Contact number</b>: <b style={{ color: 'red' }}>0354886808</b></span><br />
+                <span>🔥 <b>MOMO</b>: <b style={{ color: 'red' }}>0913088216</b></span><br />
+                <span>🔥 <b>Techcombank</b>: STK - <b style={{ color: 'red' }}>19037066792015</b></span><br />
+                <span style={{
+                    marginLeft: '40px'
+                }}>Account owner - Nguyen Tuan Son</span><br />
+                <span>🔥 <b>SeABank</b>: STK - <b style={{ color: 'red' }}>000009817987</b></span><br />
+                <span style={{
+                    marginLeft: '40px'
+                }}>Account Owner - Nguyen Tuan Son</span><br />
+                <span>🔥 <b>Techcombank</b>: STK - <b style={{ color: 'red' }}>19033778689010</b></span><br />
+                <span style={{
+                    marginLeft: '40px'
+                }}>Account Owner - Tran Phuong Thao</span><br />
+                <span>🔥 <b>Kienlongbank</b>: STK - <b style={{ color: 'red' }}>19990912</b></span><br />
+                <span style={{
+                    marginLeft: '40px'
+                }}>Account Owner - Tran Phuong Thao</span><br />
+                <span>🔥 <b>Address</b>: Hanoi, Vietnam</span></div>,
+            placement: "bottomRight",
+            duration: 10
+        });
         createOrder(name, shippingAddress, orderArr, 'Paying', 'BankTranfer')
-        let desc = `Order By ${name}`
+        let desc = `Order By ${name} `
         order.map((item, key) => {
             decreaseStock(item._id, item.quantity, desc)
         })
@@ -163,14 +193,14 @@ function Payments(props) {
         })
         createOrder(order.customerName, order.shippingAddress, orderArr, 'Preparing', 'PayPal')
         // Call API stock check out
-        let desc = `Order By ${order.customerName} at ${order.create_time.slice(0, 10)}`
+        let desc = `Order By ${order.customerName} at ${order.create_time.slice(0, 10)} `
         order.items.map((item, key) => {
             decreaseStock(item._id, item.quantity, desc)
         })
     };
     useEffect(() => {
         if (paidFor) {
-            alert("Thank you for your purchase!");
+
         }
         if (error) {
             alert(error);
@@ -304,7 +334,7 @@ function Payments(props) {
                                                 shipping: {
                                                     address: {
                                                         address_line_1: items.data.address,
-                                                        admin_area_2: `${items.data.ward}, ${items.data.district}, ${items.data.city}`,
+                                                        admin_area_2: `${items.data.ward}, ${items.data.district}, ${items.data.city} `,
                                                         postal_code: '10000',
                                                         country_code: 'VN',
                                                     },

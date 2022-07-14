@@ -17,29 +17,50 @@ function onFormSubmit() {
 
 export default function Status(props) {
     let step
-    switch (props.step) {
-        case 'Cancel':
-            step = 0;
-            break;
-        case 'Done':
-            step = 3;
-            break;
-        case 'Shipping':
-            step = 2;
-            break;
-        case 'Preparing':
-            step = 1;
-            break;
-        case 'Paying':
-            step = 0;
-            break;
-        default:
-        // code block
+    if (props.orderType !== 'AfterDeli') {
+        switch (props.step) {
+            case 'Cancel':
+                step = 0;
+                break;
+            case 'Done':
+                step = 3;
+                break;
+            case 'Shipping':
+                step = 2;
+                break;
+            case 'Preparing':
+                step = 1;
+                break;
+            case 'Paying':
+                step = 0;
+                break;
+            default:
+            // code block
+        }
     }
+    else {
+        switch (props.step) {
+            case 'Cancel':
+                step = 0;
+                break;
+            case 'Done':
+                step = 2;
+                break;
+            case 'Shipping':
+                step = 1;
+                break;
+            case 'Preparing':
+                step = 0;
+                break;
+            default:
+            // code block
+        }
+    }
+
     return (
         <div>
             {props.step !== 'Cancel' ? (
-                <StepProgressBar
+                (props.orderType !== 'AfterDeli' ? (<StepProgressBar
                     startingStep={step}
                     onSubmit={onFormSubmit}
                     steps={[
@@ -61,7 +82,25 @@ export default function Status(props) {
                         },
                     ]}
                     labelClass={'labelClass'}
-                />) : (
+                />) : (<StepProgressBar
+                    startingStep={step}
+                    onSubmit={onFormSubmit}
+                    steps={[
+                        {
+                            label: 'Preparing',
+                            name: 'preparing',
+                        },
+                        {
+                            label: 'Shipping',
+                            name: 'shipping',
+                        },
+                        {
+                            label: 'Done ',
+                            name: 'done ',
+                        },
+                    ]}
+                    labelClass={'labelClass'}
+                />))) : (
                 <StepProgressBar
                     startingStep={step}
                     onSubmit={onFormSubmit}

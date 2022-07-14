@@ -18,7 +18,7 @@ const getUser = async (req, res, next) => {
 };
 
 const createUser = async (req, res, next) => {
-  const data = await userService.createUser(req.body, req.user);
+  const data = await userService.createUser(req.body);
 
   if (data instanceof Error) return next(data);
 

@@ -56,7 +56,7 @@ const getUser = async (_id) => {
   }
 };
 
-const createUser = async (body, reqUser) => {
+const createUser = async (body) => {
   try {
     let data;
 
@@ -81,7 +81,6 @@ const createUser = async (body, reqUser) => {
         [
           {
             ...omit(body, ["customer"]),
-            createdBy: reqUser._id,
           },
         ],
         { session }
@@ -93,7 +92,6 @@ const createUser = async (body, reqUser) => {
           {
             ...body.customer,
             userId: user[0]._id,
-            createdBy: reqUser._id,
           },
         ],
         { session }

@@ -230,7 +230,7 @@ const Order = () => {
                                 <div className={styleShop.content}>
                                     <div>
                                         <h1 style={{ fontSize: "18px", padding: "1% 0 1% 1.5%", fontWeight: "600" }}>Order Detail</h1>
-                                        <Status step={record.status} />
+                                        <Status step={record.status} orderType={record.type} />
                                         <div style={{ margin: "1.5%" }}>
                                             <Table
                                                 columns={columnsDetail}
@@ -285,10 +285,13 @@ const Order = () => {
                                                                                 }}
                                                                             >
                                                                                 <Option value="Cancel">Cancel</Option>
-                                                                                <Option value="Paying">Paying</Option>
-                                                                                <Option value="Preparing">Preparing</Option>
-                                                                                <Option value="Shipping">Shipping</Option>
-                                                                                <Option value="Done">Done</Option>
+                                                                                {role === "admin" ? <>
+                                                                                    <Option value="Paying">Paying</Option>
+                                                                                    <Option value="Preparing">Preparing</Option>
+                                                                                    <Option value="Shipping">Shipping</Option>
+                                                                                    <Option value="Done">Done</Option>
+                                                                                </> : null
+                                                                                }
                                                                             </Select>
                                                                         </div>
                                                                         <Button

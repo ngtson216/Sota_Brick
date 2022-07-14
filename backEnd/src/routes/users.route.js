@@ -11,14 +11,14 @@ const { requireAuth } = require("../middlewares/auth.middleware");
 
 const router = express.Router();
 
-router.use(requireAuth);
+// router.use(requireAuth);
 
-router.route("/").get(getUsers).post(createUser);
+router.route("/").get(requireAuth, getUsers).post(createUser);
 
-router.route("/:id").get(getUser).put(updateUser).delete(deleteUser);
+router.route("/:id").get(requireAuth, getUser).put(requireAuth, updateUser).delete(requireAuth, deleteUser);
 
-router.route("/:id/active").patch(setActive(1));
+router.route("/:id/active").patch(requireAuth, setActive(1));
 
-router.route("/:id/inactive").patch(setActive(0));
+router.route("/:id/inactive").patch(requireAuth, setActive(0));
 
 module.exports = router;

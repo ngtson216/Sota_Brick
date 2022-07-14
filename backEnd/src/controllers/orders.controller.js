@@ -40,7 +40,7 @@ const getOrder = async (req, res, next) => {
 };
 
 const createOrder = async (req, res, next) => {
-  const data = await orderService.createOrder(req.checkStockHasSell, req.user);
+  const data = await orderService.createOrder(req.body, req.user);
 
   if (data instanceof Error) return next(data);
 

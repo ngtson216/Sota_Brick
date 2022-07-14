@@ -20,10 +20,6 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     enum: ['Cancel', 'Paying', 'Preparing', 'Shipping', 'Done']
   },
-  type: {
-    type: String,
-    enum: ['PayPal', 'AfterDeli', 'BankTranfer']
-  },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

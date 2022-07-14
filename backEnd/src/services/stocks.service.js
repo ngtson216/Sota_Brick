@@ -139,9 +139,21 @@ const checkStockAvailable = async (_id) => {
   try {
     const stockIn = await checkStockIn(_id);
     const stockOut = await checkStockOut(_id);
-    if (stockOut > 0)
-      return stockIn - stockOut;
-    else return stockIn - 0
+    if (stockOut > 0) return stockIn - stockOut;
+    else return stockIn - 0;
+  } catch (e) {
+    return new UserError();
+  }
+};
+const checkStockHasSell = async (time1, time2) => {
+  try {
+    const stockSell = await Stock.find({
+      type: false,
+      dateTimes: { $gte: time1, $lte: time2 },
+    });
+    const stockOut = await checkStockOut(_id);
+    if (stockOut > 0) return stockIn - stockOut;
+    else return stockIn - 0;
   } catch (e) {
     return new UserError();
   }

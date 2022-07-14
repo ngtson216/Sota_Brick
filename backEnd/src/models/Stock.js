@@ -17,6 +17,10 @@ const StockSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  dateTimes: {
+    type: Date,
+    default: Date.now(),
+  },
   isDeleted: {
     type: Number,
     enum: [0, 1],

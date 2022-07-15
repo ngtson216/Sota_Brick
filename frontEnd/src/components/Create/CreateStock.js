@@ -41,7 +41,7 @@ export default function CreateStock() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const decoded = sessionStorage.getItem('token');
-    const urlProduct = "http://localhost:8080/api/v1/products"
+    const urlProduct = "http://localhost:8080/api/v1/products?sort=desc&page=1&limit=10000"
     useEffect(() => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", decoded);

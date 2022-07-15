@@ -18,6 +18,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
 import StockManager from '../src/components/Manager/StockManager'
 import { PayPalScriptProvider } from "@paypal/react-paypal-js"
+import DemoPie from './components/Report/';
 initFontAwesome();
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
               <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
               <Route path="/StockManager" element={<StockManager />} />
               <Route path="/Order" element={<Order />} />
+              <Route path="/Statistic-By-Sex" element={<DemoPie />} />
             </Routes>
             <Footer />
           </div>

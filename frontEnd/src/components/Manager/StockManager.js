@@ -27,7 +27,7 @@ export default function StockManager() {
     const [products, setProducts] = useState([]);
     const decoded = sessionStorage.getItem('token');
     const url = "http://localhost:8080/api/v1/stocks/"
-    const urlProduct = "http://localhost:8080/api/v1/products"
+    const urlProduct = "http://localhost:8080/api/v1/products?sort=desc&page=1&limit=10000"
     useEffect(() => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", decoded);

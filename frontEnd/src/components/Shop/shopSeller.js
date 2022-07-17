@@ -65,8 +65,8 @@ export default function Shop(props) {
             <div>
                 <Popup trigger={
                     <button style={{
-                        marginLeft: '77%',
-                        marginBottom: '30px'
+                        marginLeft: '86.8%',
+                        marginBottom: '20px'
                     }} className={`${styleShop.customBtn} ${styleShop.btnStyle}`}>
                         Create
                     </button>

@@ -29,6 +29,8 @@ export default function SignUp() {
     const [getExactCity, setExactCity] = useState(null);
     const [getExactDis, setExactDis] = useState(null);
     const [getExactWard, setExactWard] = useState(null);
+    const [getIdentification, setIdentification] = useState(null);
+
     const handleChange = ((e) => {
         if (e.key === "Enter") {
             document.getElementById("myBtn").click()
@@ -68,7 +70,7 @@ export default function SignUp() {
                 )
         }
     }
-    const CallSignUp = (City, District, Ward, BirthYear, FullName, PhoneNumber, Address, username, password, Gender, Email) => {
+    const CallSignUp = (City, District, Ward, BirthYear, FullName, PhoneNumber, Address, username, password, Gender, Email, Identification) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         let birthYear = new Date().getFullYear() - BirthYear.getFullYear()
@@ -84,7 +86,8 @@ export default function SignUp() {
             "ward": Ward,
             "district": District,
             "city": City,
-            "gender": Gender
+            "gender": Gender,
+            "identification": Identification
         });
 
         var requestOptions = {
@@ -200,25 +203,18 @@ export default function SignUp() {
                                 <label
                                     className={styleLogin.content}
                                     style={{ padding: "10px 0 0px 0" }}>
-                                    District:
+                                    Identification:
                                 </label>
                                 <div className={styleLogin.wrapper}>
-                                    <select id="setDis" className={styleLogin.search} required onClick={() => {
-                                        getDisFrAPI()
-                                    }} onChange={() => {
-                                        var value = document.getElementById("setDis").value;
-                                        if (value !== "") {
-                                            setOneDis(value)
-                                            setExactDis(document.getElementById(`${value}`).label)
-                                        }
-                                        setWard([{ name: 'Select Ward', code: "" }])
-                                        setExactWard(null)
-                                    }}>
-                                        <option value="" disabled selected hidden>Select District</option>
-                                        {getDis.map((option) => (
-                                            <option id={option.code} value={option.code} label={option.name}></option>
-                                        ))}
-                                    </select>
+                                    <div className={styleLogin.search}>
+                                        <input
+                                            type="text"
+                                            placeholder="Identification"
+                                            onChange={(e) => {
+                                                setIdentification(e.target.value)
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <div>
@@ -330,6 +326,31 @@ export default function SignUp() {
                                 <label
                                     className={styleLogin.content}
                                     style={{ padding: "10px 0 0px 0" }}>
+                                    District:
+                                </label>
+                                <div className={styleLogin.wrapper}>
+                                    <select id="setDis" className={styleLogin.search} required onClick={() => {
+                                        getDisFrAPI()
+                                    }} onChange={() => {
+                                        var value = document.getElementById("setDis").value;
+                                        if (value !== "") {
+                                            setOneDis(value)
+                                            setExactDis(document.getElementById(`${value}`).label)
+                                        }
+                                        setWard([{ name: 'Select Ward', code: "" }])
+                                        setExactWard(null)
+                                    }}>
+                                        <option value="" disabled selected hidden>Select District</option>
+                                        {getDis.map((option) => (
+                                            <option id={option.code} value={option.code} label={option.name}></option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    className={styleLogin.content}
+                                    style={{ padding: "10px 0 0px 0" }}>
                                     Ward:
                                 </label>
                                 <div className={styleLogin.wrapper}>
@@ -374,7 +395,7 @@ export default function SignUp() {
                                 className={styleLogin.btnLogin}
                                 onClick={() => {
                                     if (getDate !== null && password === entryPass)
-                                        CallSignUp(getExactCity, getExactDis, getExactWard, getDate, getFullName, getPhoneNumber, getAddress, username, password, getGender, email)
+                                        CallSignUp(getExactCity, getExactDis, getExactWard, getDate, getFullName, getPhoneNumber, getAddress, username, password, getGender, email, getIdentification)
                                 }}
                             >
                                 Sign Up

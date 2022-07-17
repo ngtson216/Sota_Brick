@@ -16,7 +16,7 @@ const Footer = () => {
                     </div>
                     {/* column 1 */}
                     <div className="col">
-                        <h4>Home</h4>
+                        <h4 style={{ color: "#fff" }}>Home</h4>
                         <ul className="list-unstyled">
                             <Link className={styleFooter.unstyleLink} to="/Cart"><li>Cart</li></Link>
                             <Link className={styleFooter.unstyleLink} to="/Shop"><li>Shop</li></Link>
@@ -26,7 +26,7 @@ const Footer = () => {
                     </div>
                     {/* column 2 */}
                     <div className="col">
-                        <h4>Shop</h4>
+                        <h4 style={{ color: "#fff" }}>Shop</h4>
                         <ul className="list-unstyled">
                             <Link className={styleFooter.unstyleLink} to="/Lego-City"><li>Lego City</li></Link>
                             <Link className={styleFooter.unstyleLink} to="/Harry-Potter"><li>Harry Potter</li></Link>
@@ -38,7 +38,7 @@ const Footer = () => {
 
                     {/* column 3 */}
                     <div className="col">
-                        <h4>Categories</h4>
+                        <h4 style={{ color: "#fff" }}>Categories</h4>
                         <ul className="list-unstyled">
                             <Link className={styleFooter.unstyleLink} to="/Sex"><li>Sex</li></Link>
                             <Link className={styleFooter.unstyleLink} to="/Brand"><li>Brand</li></Link>
@@ -49,7 +49,7 @@ const Footer = () => {
 
                     {/* column 4 */}
                     <div className="col">
-                        <h4>Contact</h4>
+                        <h4 style={{ color: "#fff" }}>Contact</h4>
                         <ul className="list-unstyled">
                             <li>sotabrick@gmail.com</li>
                             <a href="https://www.facebook.com/SotA-Bricks-And-Figures-101501982349241" target="blank">

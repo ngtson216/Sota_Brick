@@ -51,7 +51,7 @@
 
 .gridContainerHome {
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto;
 }
 
 .gridContainer2 {

@@ -285,7 +285,7 @@ const Order = () => {
                                                                                 }}
                                                                             >
                                                                                 <Option value="Cancel">Cancel</Option>
-                                                                                {role === "admin" ? <>
+                                                                                {role === "seller" ? <>
                                                                                     <Option value="Paying">Paying</Option>
                                                                                     <Option value="Preparing">Preparing</Option>
                                                                                     <Option value="Shipping">Shipping</Option>
@@ -377,7 +377,7 @@ const Order = () => {
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={role === "admin" ? listOrderFilter : listOrderFilter?.filter((item) => {
+                    dataSource={role !== "customer" ? listOrderFilter : listOrderFilter?.filter((item) => {
                         if (item.createdBy === decoded.id)
                             return item
                     })}

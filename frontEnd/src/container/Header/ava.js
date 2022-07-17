@@ -52,6 +52,15 @@ export default function Ava() {
     const Order = () => {
         window.location.href = '/Order'
     }
+    const ROG = () => {
+        window.location.href = '/Report-On-Gender'
+    }
+    const ROR = () => {
+        window.location.href = '/Report-On-Revenue'
+    }
+    const ROQ = () => {
+        window.location.href = '/Report-On-Number-Of-Product-Sold'
+    }
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -151,7 +160,6 @@ export default function Ava() {
                     </>
                     : null}
 
-
                 {sessionStorage.getItem("role") === "admin" ?
                     <>
                         <MenuItem onClick={Profile} style={{
@@ -164,9 +172,22 @@ export default function Ava() {
                         <MenuItem onClick={AccountManagement} style={{
                             paddingRight: '60px',
                             paddingLeft: '30px',
-                            paddingBottom: '10px'
+                            paddingBottom: '10px',
+                            marginBottom: '200px',
                         }}>
                             Account Manager
+                        </MenuItem>
+                    </>
+                    : null}
+
+                {sessionStorage.getItem("role") === "seller" ?
+                    <>
+                        <MenuItem onClick={Profile} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                        }}>
+                            Profile
                         </MenuItem>
                         <MenuItem onClick={StockManager} style={{
                             paddingRight: '60px',
@@ -179,9 +200,30 @@ export default function Ava() {
                             paddingRight: '60px',
                             paddingLeft: '30px',
                             paddingBottom: '10px',
-                            marginBottom: '200px',
                         }}>
                             Orders Manager
+                        </MenuItem>
+                        <MenuItem onClick={ROG} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                        }}>
+                            Report On Gender
+                        </MenuItem>
+                        <MenuItem onClick={ROR} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                        }}>
+                            Report On Revenue
+                        </MenuItem>
+                        <MenuItem onClick={ROQ} style={{
+                            paddingRight: '60px',
+                            paddingLeft: '30px',
+                            paddingBottom: '10px',
+                            marginBottom: '80px',
+                        }}>
+                            Report On Quantity
                         </MenuItem>
                     </>
                     : null}

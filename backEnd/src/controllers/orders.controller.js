@@ -23,6 +23,18 @@ const checkProductHasSell = async (req, res, next) => {
   return sendResponse(data, res);
 };
 
+const checkQuantityProductHasSell = async (req, res, next) => {
+  const data = await orderService.checkQuantityProductHasSell(
+    req.body.productId,
+    req.body.time1,
+    req.body.time2
+  );
+
+  if (data instanceof Error) return next(data);
+
+  return sendResponse(data, res);
+};
+
 const getOrders = async (req, res, next) => {
   const data = await orderService.getOrders(req.query);
 
@@ -70,6 +82,7 @@ const deleteOrder = async (req, res, next) => {
 module.exports = {
   checkProductHasSell,
   getGenderProductHasSale,
+  checkQuantityProductHasSell,
   getOrders,
   getOrder,
   createOrder,

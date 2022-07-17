@@ -325,9 +325,28 @@ const checkProductHasSell = async (productId, time1, time2) => {
 
   return result;
 };
+
+const checkQuantityProductHasSell = async (productId, time1, time2) => {
+  let result = [];
+  let temp = 0;
+  for (const item of productId) {
+    const pd = await Stock.find({
+      type: false,
+      productId: item,
+      createdAt: { $gte: time1, $lte: time2 },
+    }).populate("productId");
+    pd.map((item) => {
+      temp += item.quantity;
+    });
+    result.push({ productId: item, sum: temp });
+  }
+
+  return result;
+};
 module.exports = {
   checkProductHasSell,
   getGenderProductHasSale,
+  checkQuantityProductHasSell,
   getOrders,
   getOrder,
   createOrder,

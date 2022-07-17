@@ -1,24 +1,26 @@
 // import logo from './logo.svg';
 import HeaderWhenLogged from './container/Header/headerWhenLogged';
-import Header from './container/Header/index'
+import Header from './container/Header/index';
 import Footer from './container/Footer';
 import Login from './container/Login';
 import Home from './container/Home';
-import AboutUs from '../src/components/AboutUs'
-import Shop from '../src/components/Shop'
-import ShopSeller from '../src/components/Shop/shopSeller'
-import Cart from '../src/components/Cart'
-import SignUp from '../src/container/Login/signup'
-import Product from '../src/components/Product'
-import UserManager from '../src/components/Manager/UserManager'
-import Profile from '../src/components/Profile'
-import Order from '../src/components/Order'
+import AboutUs from '../src/components/AboutUs';
+import Shop from '../src/components/Shop';
+import ShopSeller from '../src/components/Shop/shopSeller';
+import Cart from '../src/components/Cart';
+import SignUp from '../src/container/Login/signup';
+import Product from '../src/components/Product';
+import UserManager from '../src/components/Manager/UserManager';
+import Profile from '../src/components/Profile';
+import Order from '../src/components/Order';
 import initFontAwesome from "../src/initFontAwesome.js";
-import { Route, Routes } from 'react-router-dom'
-import { useState } from 'react'
+import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import StockManager from '../src/components/Manager/StockManager'
-import { PayPalScriptProvider } from "@paypal/react-paypal-js"
-import DemoPie from './components/Report/';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import ReportOnGender from './components/Report/ReportOnGender';
+import ReportOnRevenue from './components/Report/ReportOnRevenue';
+import ReportOnQuantitySold from './components/Report/ReportOnQuantitySold';
 initFontAwesome();
 
 function App() {
@@ -70,7 +72,36 @@ function App() {
               <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
               <Route path="/StockManager" element={<StockManager />} />
               <Route path="/Order" element={<Order />} />
-              <Route path="/Statistic-By-Sex" element={<DemoPie />} />
+              <Route path="/Report-On-Gender" element={<ReportOnGender />} />
+              <Route path="/Report-On-Revenue" element={<ReportOnRevenue />} />
+              <Route path="/Report-On-Number-Of-Product-Sold" element={<ReportOnQuantitySold />} />
+            </Routes>
+            <Footer />
+          </div>
+        </PayPalScriptProvider>
+      )
+    }
+    else if (role === "seller") {
+      return (
+        <PayPalScriptProvider options={{
+          "client-id": "AYSW435EZGBmw2mThWg7-M16ELwuJ6Ow3dAcv8D4AnfkmIVnwSDzVUTxREbrEELk_ISGXL3zJQTamEzk"
+        }}>
+          <div>
+            <HeaderWhenLogged parentCallback={callbackFunction} data={mess2} />
+            <Routes>
+              <Route path="/" element={<Home searchData={mess} />} />
+              <Route path="/AboutUs" element={<AboutUs />} />
+              <Route path="/Cart" element={<Cart parentCallback={callbackFunction1} login={true} />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Shop" element={<ShopSeller searchData={mess} />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/Profile" element={<Profile />} />
+              <Route path="/Product" element={<Product parentCallback={callbackFunction1} />} />
+              <Route path="/StockManager" element={<StockManager />} />
+              <Route path="/Order" element={<Order />} />
+              <Route path="/Report-On-Gender" element={<ReportOnGender />} />
+              <Route path="/Report-On-Revenue" element={<ReportOnRevenue />} />
+              <Route path="/Report-On-Number-Of-Product-Sold" element={<ReportOnQuantitySold />} />
             </Routes>
             <Footer />
           </div>

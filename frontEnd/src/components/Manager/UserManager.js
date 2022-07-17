@@ -5,7 +5,8 @@ import { AiFillDelete } from 'react-icons/ai';
 import tableStyle from '../../CSS/TableStyle.module.scss'
 import bgProfile from '../../img/bgProfile.jpg'
 import DeleteUser from '../Delete/deleteUser';
-import styleModal from '../../CSS/ModalNotification.module.css'
+import EditUser from '../Edit/EditUser';
+import styleModal from '../../CSS/ModalNotification.module.css';
 import Popup from 'reactjs-popup';
 import { Table } from 'antd'
 import '../../CSS/TableAntd.css'
@@ -26,10 +27,15 @@ export default function UserManager() {
     const [items, setItems] = useState([]);
     const [getIdDel, setGetIdDel] = useState(null);
     const decoded = sessionStorage.getItem('token');
+    const [openEdit, setOpenEdit] = useState(false);
     const [open, setOpen] = useState(false);
     const closeModal = () => setOpen(false);
+    const closeModalEdit = () => setOpenEdit(false);
     const setClose = (childData) => {
         setOpen(childData)
+    }
+    const setCloseEdit = (childData) => {
+        setOpenEdit(childData)
     }
     const url = "http://localhost:8080/api/v1/users"
     useEffect(() => {
@@ -80,9 +86,25 @@ export default function UserManager() {
             render: (_, record, index) => {
                 return (
                     <div>
-                        <Link to="/">
-                            <FiEdit className={tableStyle.icon} />
-                        </Link>
+                        <FiEdit className={tableStyle.icon}
+                            onClick={() => {
+                                setGetIdDel(items.data[index])
+                                setOpenEdit(o => !o)
+                            }} />
+                        <Popup {...{ overlayStyle }} open={openEdit} closeOnDocumentClick onClose={closeModalEdit} modal nested>
+                            {(close) => {
+                                return (
+                                    <div className={styleModal.modal}>
+                                        <button className={styleModal.close} onClick={close}>
+                                            &times;
+                                        </button>
+                                        <div className={styleModal.actions}>
+                                            <EditUser dataFromParent={getIdDel} callback={setCloseEdit} />
+                                        </div>
+                                    </div>
+                                )
+                            }}
+                        </Popup>
                         <AiFillDelete className={tableStyle.icon}
                             onClick={() => {
                                 setGetIdDel(items.data[index]._id)

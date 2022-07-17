@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import bgProfile from '../../img/bgProfile.jpg'
 import { Pie } from '@ant-design/plots';
-import { DatePicker, Space, Button, Form } from 'antd';
+import { DatePicker, Space, Button, Form, Typography } from 'antd';
+const { Title } = Typography;
 const { RangePicker } = DatePicker;
 const DemoPie = () => {
     const [dateS, setDateS] = useState(undefined);
@@ -33,11 +34,11 @@ const DemoPie = () => {
     const data = [
         {
             type: 'Boy',
-            value: dataSBS?.men,
+            value: dataSBS?.men ? dataSBS?.men : 0,
         },
         {
             type: 'Girl',
-            value: dataSBS?.women,
+            value: dataSBS?.women ? dataSBS?.women : 0,
         },
     ];
     const config = {
@@ -104,9 +105,11 @@ const DemoPie = () => {
                     </Form>
                 </Space>
                 <div style={{
-                    borderLeftStyle: 'solid'
+                    borderLeftStyle: 'solid',
+                    textAlign: 'center'
                 }}>
                     <Pie {...config} />
+                    <Title level={4}>Report on the gender of products sold</Title>
                 </div>
             </div>
         </div>

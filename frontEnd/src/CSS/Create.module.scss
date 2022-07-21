@@ -1,34 +1,35 @@
 .h1Create {
-    padding-top: 20px;
-    text-align: center
+    // padding-top: 20px;
+    text-align: center;
+    font-size: 28px;
 }
 
 .gridContainer {
-    padding-top: 30px;
+    // padding-top: 30px;
     display: grid;
     grid-template-columns: auto auto;
 }
 
 .gridChildren {
     margin-left: 20%;
-    font-size: 19px
+    font-size: 16px
 }
 
 .gridChildrenRight {
     margin-left: 7%;
-    font-size: 19px;
+    font-size: 16px;
     margin-right: 13%;
 }
 
 .description {
     margin-left: 10%;
-    font-size: 19px
+    font-size: 16px
 }
 
 .inputFile {
     margin-left: 10%;
-    font-size: 18px;
-    padding-bottom: 10px;
+    font-size: 16px;
+    // padding-bottom: 10px;
 }
 
 .inputStyle {
@@ -53,7 +54,7 @@
     width: 88.5%;
     font-size: 0.9rem;
     letter-spacing: 0.00938em;
-    height: 100px;
+    height: 80px;
     position: relative;
     background-color: transparent;
     color: black;
